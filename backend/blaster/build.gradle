@@ -24,15 +24,31 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// 애플리케이션의 주요 기능을 제공하는 기본 종속성들
+	implementation 'org.springframework.boot:spring-boot-starter-web'         // 웹 애플리케이션 기본 기능 (REST API 등)
+	implementation 'org.springframework.boot:spring-boot-starter-security'    // 보안 기능 (인증/인가)
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'    // 데이터 JPA를 통한 DB 접근
+
+	// 개발 환경에서만 사용되는 종속성
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'           // 개발 편의를 위한 DevTools
+
+	// 컴파일 시에만 필요한 종속성
+	compileOnly 'org.projectlombok:lombok'                                    // Lombok을 통한 코드 간소화
+	annotationProcessor 'org.projectlombok:lombok'                            // Lombok 애너테이션 처리
+
+	// 런타임에만 필요한 종속성
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'                        // MariaDB JDBC 드라이버 (DB 연결)
+
+	// JWT 사용을 위한 종속성
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'                          // JWT API (토큰 생성/파싱용)
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'                            // JWT 구현체
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'                         // JWT JSON 처리 (Jackson)
+
+	// 테스트를 위한 종속성
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'    // 테스트 전용 기능 (JUnit, Mockito 등 포함)
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'              // 테스트 런타임 전용 라이브러리 (JUnit 플랫폼)
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()
