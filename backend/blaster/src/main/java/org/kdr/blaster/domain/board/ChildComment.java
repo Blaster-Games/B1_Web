@@ -35,13 +35,13 @@ public class ChildComment {
         updatedAt = LocalDateTime.now();
     }
 
-    public void changeContent(String content) {
-        this.content = content;
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 
-    @PreUpdate
-    public void refreshUpdatedAt() {
-        this.updatedAt = LocalDateTime.now();
+    public void changeContent(String content) {
+        this.content = content;
     }
 
     public void deleteChildComment() {

@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
+@ToString(exclude = "reactions")
 public class Post {
 
     @Id
@@ -47,9 +48,17 @@ public class Post {
     @Column(nullable = false)
     private boolean deleted;
 
+    @OneToMany(mappedBy = "post")
+    private List<MemberPostReaction> reactions;
+
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
 
@@ -59,11 +68,6 @@ public class Post {
 
     public void changeContent(String content) {
         this.content = content;
-    }
-
-    @PreUpdate
-    public void refreshUpdatedAt() {
-        this.updatedAt = LocalDateTime.now();
     }
 
     public void incrementViewCount() {

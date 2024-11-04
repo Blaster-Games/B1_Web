@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
+@ToString(exclude = "reactions")
 public class Comment {
 
     @Id
@@ -38,19 +39,22 @@ public class Comment {
     @Column(nullable = false)
     private int childCommentCount;
 
+    @OneToMany(mappedBy = "comment")
+    private List<MemberCommentReaction> reactions;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
 
-    public void changeContent(String content) {
-        this.content = content;
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 
-    @PreUpdate
-    public void refreshUpdatedAt() {
-        this.updatedAt = LocalDateTime.now();
+    public void changeContent(String content) {
+        this.content = content;
     }
 
     public void incrementLikeCount() {

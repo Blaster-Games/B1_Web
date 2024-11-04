@@ -1,7 +1,8 @@
 package org.kdr.blaster.domain.board;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
+import org.kdr.blaster.domain.member.Member;
 
 @Entity
 @Builder
@@ -9,6 +10,25 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @ToString
+@EqualsAndHashCode(of = {"member", "post"})
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"member_id", "post_id"})
+        }
+)
 public class MemberPostReaction {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
+
+    private Reaction reaction;
 }

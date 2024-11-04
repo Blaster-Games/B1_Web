@@ -2,15 +2,18 @@ package org.kdr.blaster.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.kdr.blaster.domain.board.MemberCommentReaction;
+import org.kdr.blaster.domain.board.MemberPostReaction;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
+@ToString(exclude = {"memberPostReaction", "memberCommentReactions"})
 public class Member {
 
     @Id
@@ -38,9 +41,20 @@ public class Member {
     @Column(nullable = false, name = "withdrawal_status")
     private boolean withdrawalStatus;
 
+    @OneToMany(mappedBy = "member")
+    private List<MemberPostReaction> memberPostReaction;
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberCommentReaction> memberCommentReactions;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
 
