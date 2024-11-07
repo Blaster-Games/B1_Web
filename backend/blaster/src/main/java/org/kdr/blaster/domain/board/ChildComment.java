@@ -2,13 +2,14 @@ package org.kdr.blaster.domain.board;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.kdr.blaster.domain.member.Member;
 
 import java.time.LocalDateTime;
 
-@Entity
+//@Entity
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
 public class ChildComment {
@@ -28,6 +29,18 @@ public class ChildComment {
 
     @Column(nullable = false)
     private boolean deleted;
+
+//    @ManyToOne
+//    @JoinColumn(name = "author_id", nullable = false)
+//    private Member member;
+
+//    @ManyToOne
+//    @JoinColumn(name = "parent_comment_id", nullable = false)
+//    private Comment comment;
+
+//    @ManyToOne
+//    @JoinColumn(name = "post_id", nullable = false)
+//    private Post post;
 
     @PrePersist
     protected void onCreate() {

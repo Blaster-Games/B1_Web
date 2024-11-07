@@ -2,16 +2,19 @@ package org.kdr.blaster.domain.board;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.kdr.blaster.domain.Game;
+import org.kdr.blaster.domain.member.Member;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(exclude = "reactions")
+@ToString(exclude = {"reactions", "comments"})
 public class Post {
 
     @Id
@@ -48,8 +51,24 @@ public class Post {
     @Column(nullable = false)
     private boolean deleted;
 
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "game_id", nullable = false)
+    private Game game;
+
     @OneToMany(mappedBy = "post")
-    private List<MemberPostReaction> reactions;
+    @Builder.Default
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    @Builder.Default
+    private List<MemberPostReaction> reactions = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "post")
+//    private List<ChildComment> childComments;
 
     @PrePersist
     public void onCreate() {

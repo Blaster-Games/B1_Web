@@ -2,14 +2,16 @@ package org.kdr.blaster.domain.board;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.kdr.blaster.domain.member.Member;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = "reactions")
 public class Comment {
@@ -36,11 +38,23 @@ public class Comment {
     @Column(nullable = false)
     private boolean deleted;
 
-    @Column(nullable = false)
-    private int childCommentCount;
+//    @Column(nullable = false)
+//    private int childCommentCount;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 
     @OneToMany(mappedBy = "comment")
-    private List<MemberCommentReaction> reactions;
+    @Builder.Default
+    private List<MemberCommentReaction> reactions = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "comment")
+//    private List<ChildComment> childComments;
 
     @PrePersist
     protected void onCreate() {
@@ -73,13 +87,13 @@ public class Comment {
         this.dislikeCount--;
     }
 
-    public void incrementChildCommentCount() {
-        this.childCommentCount++;
-    }
-
-    public void decrementChildCommentCount() {
-        this.childCommentCount--;
-    }
+//    public void incrementChildCommentCount() {
+//        this.childCommentCount++;
+//    }
+//
+//    public void decrementChildCommentCount() {
+//        this.childCommentCount--;
+//    }
 
     public void deleteComment() {
         this.deleted = true;

@@ -30,5 +30,6 @@ public class MemberCommentReaction {
     @JoinColumn(name = "comment_id", nullable = false)
     private Comment comment;
 
+    @Enumerated(EnumType.STRING)
     private Reaction reaction;
 }

@@ -44,9 +44,14 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'                            // JWT 구현체
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'                         // JWT JSON 처리 (Jackson)
 
+	// Gson
+	implementation 'com.google.code.gson:gson:2.11.0'
+
 	// 테스트를 위한 종속성
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'    // 테스트 전용 기능 (JUnit, Mockito 등 포함)
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'              // 테스트 런타임 전용 라이브러리 (JUnit 플랫폼)
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 

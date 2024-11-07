@@ -2,18 +2,18 @@ package org.kdr.blaster.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.kdr.blaster.domain.board.MemberCommentReaction;
-import org.kdr.blaster.domain.board.MemberPostReaction;
+import org.kdr.blaster.domain.board.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(exclude = {"memberPostReaction", "memberCommentReactions"})
+@ToString(exclude = {"posts", "comments", "memberPostReaction", "memberCommentReactions"})
 public class Member {
 
     @Id
@@ -27,6 +27,7 @@ public class Member {
     private String password;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
     @Column(nullable = false, unique = true)
@@ -42,10 +43,23 @@ public class Member {
     private boolean withdrawalStatus;
 
     @OneToMany(mappedBy = "member")
-    private List<MemberPostReaction> memberPostReaction;
+    @Builder.Default
+    private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<MemberCommentReaction> memberCommentReactions;
+    @Builder.Default
+    private List<Comment> comments = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "member")
+//    private List<ChildComment> childComments;
+
+    @OneToMany(mappedBy = "member")
+    @Builder.Default
+    private List<MemberPostReaction> memberPostReaction = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    @Builder.Default
+    private List<MemberCommentReaction> memberCommentReactions = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
