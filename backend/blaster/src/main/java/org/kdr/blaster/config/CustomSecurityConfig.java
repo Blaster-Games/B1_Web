@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.kdr.blaster.repository.MemberRepository;
 import org.kdr.blaster.security.filter.JWTCheckFilter;
 import org.kdr.blaster.security.handler.APILoginFailHandler;
-import org.kdr.blaster.security.handler.APILoginGameSuccessHandler;
+import org.kdr.blaster.security.handler.APIGameLoginSuccessHandler;
 import org.kdr.blaster.security.handler.APILoginSuccessHandler;
 import org.kdr.blaster.security.handler.CustomAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -32,7 +33,10 @@ public class CustomSecurityConfig {
     private final MemberRepository memberRepository;
 
     @Bean
+    @Order(2)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        http.securityMatcher("/**");
 
         http.cors(httpSecurityCorsConfigurer -> {
             httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource());
@@ -61,7 +65,11 @@ public class CustomSecurityConfig {
     }
 
     @Bean
+    @Order(1)
     public SecurityFilterChain gameFilterChain(HttpSecurity http) throws Exception {
+
+        http.securityMatcher("/api/member/login/game");
+
         http.cors(httpSecurityCorsConfigurer -> {
             httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource());
         });
@@ -74,8 +82,9 @@ public class CustomSecurityConfig {
 
 
         http.formLogin(config -> {
-            config.loginPage("/api/member/login/game");
-            config.successHandler(new APILoginGameSuccessHandler(memberRepository));
+            config.loginPage("/api/member/login/game")
+                    .loginProcessingUrl("/api/member/login/game");
+            config.successHandler(new APIGameLoginSuccessHandler(memberRepository));
             config.failureHandler(new APILoginFailHandler());
         });
 

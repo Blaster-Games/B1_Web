@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.kdr.blaster.domain.member.Member;
 import org.kdr.blaster.dto.MemberDTO;
@@ -20,11 +19,11 @@ import java.io.PrintWriter;
 import java.util.Map;
 
 @Log4j2
-public class APILoginGameSuccessHandler implements AuthenticationSuccessHandler {
+public class APIGameLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private final MemberRepository memberRepository;
 
-    public APILoginGameSuccessHandler(MemberRepository memberRepository) {
+    public APIGameLoginSuccessHandler(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
