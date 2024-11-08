@@ -33,7 +33,7 @@ public class APIGameLoginSuccessHandler implements AuthenticationSuccessHandler 
 
         Map<String, Object> claims = memberDTO.getClaims();
 
-        String accessToken = JWTUtil.generateAccessToken(memberDTO.getId(), claims, 1);
+        String accessToken = JWTUtil.generateAccessToken(memberDTO.getId(), claims, 60 * 24);
         String refreshToken = JWTUtil.generateRefreshToken(memberDTO.getId(), 60 * 24);
 
         claims.put("accessToken", accessToken);

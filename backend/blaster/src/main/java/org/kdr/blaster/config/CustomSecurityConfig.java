@@ -82,8 +82,8 @@ public class CustomSecurityConfig {
 
 
         http.formLogin(config -> {
-            config.loginPage("/api/member/login/game")
-                    .loginProcessingUrl("/api/member/login/game");
+            config.loginPage("/api/member/login/game");
+//                    .loginProcessingUrl("/api/member/login/game");
             config.successHandler(new APIGameLoginSuccessHandler(memberRepository));
             config.failureHandler(new APILoginFailHandler());
         });

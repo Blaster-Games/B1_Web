@@ -2,6 +2,7 @@ package org.kdr.blaster.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.kdr.blaster.domain.GamePlayRecord;
 import org.kdr.blaster.domain.board.*;
 
 import java.time.LocalDateTime;
