@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.kdr.blaster.repository.MemberRepository;
 import org.kdr.blaster.security.filter.JWTCheckFilter;
 import org.kdr.blaster.security.handler.APILoginFailHandler;
+import org.kdr.blaster.security.handler.APILoginGameSuccessHandler;
 import org.kdr.blaster.security.handler.APILoginSuccessHandler;
 import org.kdr.blaster.security.handler.CustomAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
@@ -24,8 +25,11 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 @EnableMethodSecurity
 public class CustomSecurityConfig {
+
+    private final MemberRepository memberRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -40,9 +44,38 @@ public class CustomSecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable);
 
+
         http.formLogin(config -> {
             config.loginPage("/api/member/login");
             config.successHandler(new APILoginSuccessHandler());
+            config.failureHandler(new APILoginFailHandler());
+        });
+
+        http.addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.exceptionHandling(config -> {
+            config.accessDeniedHandler(new CustomAccessDeniedHandler());
+        });
+
+        return http.build();
+    }
+
+    @Bean
+    public SecurityFilterChain gameFilterChain(HttpSecurity http) throws Exception {
+        http.cors(httpSecurityCorsConfigurer -> {
+            httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource());
+        });
+
+        http.sessionManagement(httpSecuritySessionManagementConfigurer -> {
+            httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.NEVER);
+        });
+
+        http.csrf(AbstractHttpConfigurer::disable);
+
+
+        http.formLogin(config -> {
+            config.loginPage("/api/member/login/game");
+            config.successHandler(new APILoginGameSuccessHandler(memberRepository));
             config.failureHandler(new APILoginFailHandler());
         });
 

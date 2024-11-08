@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(exclude = {"posts", "comments", "memberPostReaction", "memberCommentReactions"})
+@ToString(exclude = {"posts", "comments", "memberPostReaction", "memberCommentReactions", "gamePlayRecords"})
 public class Member {
 
     @Id
@@ -39,6 +39,12 @@ public class Member {
     @Column(nullable = false, name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "last_game_login_at")
+    private LocalDateTime lastGameLoginAt;
+
+    @Column(name = "last_game_logout_at")
+    private LocalDateTime lastGameLogoutAt;
+
     @Column(nullable = false, name = "withdrawal_status")
     private boolean withdrawalStatus;
 
@@ -61,15 +67,26 @@ public class Member {
     @Builder.Default
     private List<MemberCommentReaction> memberCommentReactions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    @Builder.Default
+    private List<GamePlayRecord> gamePlayRecords = new ArrayList<>();
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
 
-    @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public void onLogin() {
+        lastGameLoginAt = LocalDateTime.now();
+    }
+
+    public void onLogout() {
+        lastGameLogoutAt = LocalDateTime.now();
     }
 
     public void changePassword(String password) {
