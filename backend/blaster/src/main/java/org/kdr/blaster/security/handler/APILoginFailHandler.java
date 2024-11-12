@@ -16,9 +16,8 @@ import java.util.Map;
 public class APILoginFailHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        log.info("Login fail.....{}", String.valueOf(exception));
         Gson gson = new Gson();
-        String jsonStr = gson.toJson(Map.of(exception, exception.getMessage()));
+        String jsonStr = gson.toJson(Map.of("error", "APILoginFailHandler: " + exception.getMessage()));
         response.setContentType("application/json");
         PrintWriter printWriter = response.getWriter();
         printWriter.println(jsonStr);

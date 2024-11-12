@@ -17,7 +17,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         Gson gson = new Gson();
 
-        String jsonStr = gson.toJson(Map.of(accessDeniedException, accessDeniedException.getMessage()));
+        String jsonStr = gson.toJson(Map.of("error", "CustomAccessDeniedHandler: " + accessDeniedException.getMessage()));
         response.setContentType("application/json");
         response.setStatus(HttpStatus.FORBIDDEN.value());
         PrintWriter printWriter = response.getWriter();

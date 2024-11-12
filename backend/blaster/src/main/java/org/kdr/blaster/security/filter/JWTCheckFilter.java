@@ -17,6 +17,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 @Log4j2
@@ -29,10 +31,10 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         if (path.startsWith("/api/member/login")) {
             return true;
         }
-        if (path.startsWith("/api/member/register")) {
+        if (path.startsWith("/api/member/refresh")) {
             return true;
         }
-        if (path.startsWith("/api/member/refresh")) {
+        if (path.startsWith("/api/member/signup")) {
             return true;
         }
 
@@ -47,13 +49,16 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         try {
             String accessToken = authHeaderStr.substring(7);
             Claims claims = JWTUtil.validateToken(accessToken);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy. MM. dd");
 
             Long id = Long.valueOf(claims.getSubject());
             String email = (String) claims.get("email");
             UserRole userRole = UserRole.valueOf((String) claims.get("userRole"));
             String nickname = (String) claims.get("nickname");
+            LocalDateTime createdAt = LocalDateTime.parse((String) claims.get("createdAt"), formatter);
 
-            MemberDTO memberDTO = new MemberDTO(email, "", userRole, id, nickname);
+
+            MemberDTO memberDTO = new MemberDTO(email, "", userRole, id, nickname, createdAt);
 
             UsernamePasswordAuthenticationToken authenticationToken
                     = new UsernamePasswordAuthenticationToken(memberDTO,null, memberDTO.getAuthorities());
@@ -65,7 +70,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         }catch(Exception e){
 
             Gson gson = new Gson();
-            String msg = gson.toJson(Map.of("JWTCheckFilter.java error", e.getMessage()));
+            String msg = gson.toJson(Map.of("error", "JWTCheckFilter: " + e.getMessage()));
 
             response.setContentType("application/json");
             PrintWriter printWriter = response.getWriter();

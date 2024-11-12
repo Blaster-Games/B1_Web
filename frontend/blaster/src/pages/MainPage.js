@@ -1,10 +1,12 @@
 import React from 'react';
+import BasicLayout from '../layouts/BasicLayout';
+import MainComponent from '../components/MainComponent';
 
 function MainPage() {
   return (
-    <div className={'text-3xl'}>
-      <div>MainPage</div>
-    </div>
+    <BasicLayout>
+      <MainComponent />
+    </BasicLayout>
   );
 }
 

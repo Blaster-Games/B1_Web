@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.kdr.blaster.domain.GamePlayRecord;
-import org.kdr.blaster.domain.member.Member;
 
 import java.time.LocalDateTime;
 
