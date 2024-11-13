@@ -1,10 +1,23 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   emailCheckGet,
   nicknameCheckGet,
   signUpPost,
 } from '../../api/memberApi';
 import useCustomLogin from '../../hooks/useCustomLogin';
+import Modal from '../common/Modal';
+
+const signUpData = {
+  nickname: '',
+  email: '',
+  password: '',
+};
+
+const initModalData = {
+  title: '',
+  content: '',
+  onClose: () => {},
+};
 
 function SignUpComponent() {
   const nicknameRef = useRef(null);
@@ -16,15 +29,50 @@ function SignUpComponent() {
 
   const [isNickNameChecked, setIsNickNameChecked] = useState(false);
   const [isEmailChecked, setIsEmailChecked] = useState(false);
+  const [isValidationError, setIsValidationError] = useState(false);
+  const [modalData, setModalData] = useState(initModalData);
+  const [done, setDone] = useState(false);
+  const [focusTarget, setFocusTarget] = useState(null); // 포커스할 대상 상태 추가
+
+  useEffect(() => {
+    if (focusTarget) {
+      focusTarget.focus();
+      setFocusTarget(null);
+    }
+  }, [focusTarget]);
+
+  useEffect(() => {
+    emailRef.current.focus();
+  }, [done]);
+
+  function closeSuccessModal() {
+    setDone(false);
+    moveToLogin();
+  }
+
+  const openWarningModal = (ref, message) => {
+    if (ref) {
+      setFocusTarget(ref.current);
+    }
+    setModalData({
+      ...initModalData,
+      title: '회원가입 실패',
+      content: message,
+      onClose: () => {
+        setIsValidationError(false);
+      },
+    });
+    setIsValidationError(true);
+  };
 
   const nicknameCheckHandler = () => {
     nicknameCheckGet(nicknameRef.current.value)
       .then((res) => {
         if (res) {
-          alert('이미 사용 중인 닉네임입니다.');
+          openWarningModal(nicknameRef, '이미 사용 중인 닉네임입니다.');
           nicknameRef.current.value = '';
         } else {
-          alert('사용 가능한 닉네임입니다.');
+          openWarningModal(emailRef, '사용 가능한 닉네임입니다.');
           setIsNickNameChecked(true);
         }
       })
@@ -35,10 +83,10 @@ function SignUpComponent() {
     emailCheckGet(emailRef.current.value)
       .then((res) => {
         if (res) {
-          alert('이미 가입한 이메일입니다.');
+          openWarningModal(emailRef, '이미 가입한 이메일입니다.');
           emailRef.current.value = '';
         } else {
-          alert('사용 가능한 이메일입니다.');
+          openWarningModal(password1Ref, '사용 가능한 이메일입니다.');
           setIsEmailChecked(true);
         }
       })
@@ -47,39 +95,49 @@ function SignUpComponent() {
 
   const isEmpty = (ref, message) => {
     if (ref.current.value === '') {
-      alert(message + ' 입력해 주세요.');
-      ref.current.focus();
+      openWarningModal(ref, `${message} 입력해 주세요.`);
       return true;
     }
     return false;
   };
 
   const isValidated = () => {
-    if (isEmpty(nicknameRef, '닉네임을')) return false;
     if (isEmpty(emailRef, '이메일을')) return false;
+    if (isEmpty(nicknameRef, '닉네임을')) return false;
     if (isEmpty(password1Ref, '비밀번호를')) return false;
     if (isEmpty(password2Ref, '비밀번호 확인을')) return false;
+
     if (password1Ref.current.value !== password2Ref.current.value) {
-      alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      openWarningModal(
+        password2Ref,
+        '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
+      );
       return false;
     }
+
+    if (!isEmailChecked) {
+      openWarningModal(null, '이메일 중복 확인을 해주세요.');
+      return false;
+    }
+    if (!isNickNameChecked) {
+      openWarningModal(null, '닉네임 중복 확인을 해주세요.');
+      return false;
+    }
+
     return true;
   };
 
   const signUpHandler = () => {
     if (!isValidated()) return;
 
-    const signUpData = {
-      nickname: nicknameRef.current.value,
-      email: emailRef.current.value,
-      password: password1Ref.current.value,
-    };
+    signUpData.nickname = nicknameRef.current.value;
+    signUpData.email = emailRef.current.value;
+    signUpData.password = password1Ref.current.value;
 
     signUpPost(signUpData)
       .then((res) => {
         if (res.request.status === 200) {
-          alert(`${res.data.nickname} 님 환영합니다!`);
-          moveToLogin();
+          setDone(true);
         }
       })
       .catch((e) => {
@@ -94,32 +152,6 @@ function SignUpComponent() {
       </h2>
       <div className="basis-7/8 flex flex-col space-y-4 w-full max-w-lg mx-auto">
         <div className="flex items-center mb-1">
-          <label htmlFor="username" className="basis-1/4 w-24 mr-4">
-            닉네임:
-          </label>
-          <input
-            ref={nicknameRef}
-            onChange={() => {
-              setIsNickNameChecked(false);
-            }}
-            type="text"
-            id="username"
-            className="flex-1 p-2 rounded bg-gray-600 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          {isNickNameChecked ? (
-            <div className="basis-1/5 ml-4 bg-green-500 text-center text-white px-3 py-2 rounded transition duration-300">
-              확인 완료
-            </div>
-          ) : (
-            <button
-              onClick={nicknameCheckHandler}
-              className="basis-1/5 ml-4 bg-blue-500 hover:bg-blue-400 text-white px-3 py-2 rounded transition duration-300"
-            >
-              중복 확인
-            </button>
-          )}
-        </div>
-        <div className="flex items-center mb-4">
           <label htmlFor="email" className="basis-1/4 w-24 mr-4">
             이메일:
           </label>
@@ -142,6 +174,32 @@ function SignUpComponent() {
               className="basis-1/5 ml-4 bg-blue-500 hover:bg-blue-400 text-white px-2 py-2 rounded transition duration-300"
             >
               이메일 확인
+            </button>
+          )}
+        </div>
+        <div className="flex items-center mb-1">
+          <label htmlFor="nickname" className="basis-1/4 w-24 mr-4">
+            닉네임:
+          </label>
+          <input
+            ref={nicknameRef}
+            onChange={() => {
+              setIsNickNameChecked(false);
+            }}
+            type="text"
+            id="nickname"
+            className="flex-1 p-2 rounded bg-gray-600 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+          {isNickNameChecked ? (
+            <div className="basis-1/5 ml-4 bg-green-500 text-center text-white px-3 py-2 rounded transition duration-300">
+              확인 완료
+            </div>
+          ) : (
+            <button
+              onClick={nicknameCheckHandler}
+              className="basis-1/5 ml-4 bg-blue-500 hover:bg-blue-400 text-white px-3 py-2 rounded transition duration-300"
+            >
+              중복 확인
             </button>
           )}
         </div>
@@ -174,6 +232,18 @@ function SignUpComponent() {
           회원가입
         </button>
       </div>
+      <Modal
+        isOpen={done}
+        title={'회원가입 완료'}
+        content={`${signUpData.nickname}님 환영합니다!`}
+        onClose={closeSuccessModal}
+      />
+      <Modal
+        isOpen={isValidationError}
+        title={modalData.title}
+        content={modalData.content}
+        onClose={modalData.onClose}
+      />
     </div>
   );
 }

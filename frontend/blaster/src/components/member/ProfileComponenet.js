@@ -1,8 +1,61 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import useCustomLogin from '../../hooks/useCustomLogin';
+import Modal from '../common/Modal';
+
+const initModalData = {
+  title: '',
+  content: '',
+  onClose: () => {},
+  onClick: () => {},
+  buttonCloseText: '',
+  buttonText: '',
+};
 
 function ProfileComponenet() {
   const { loginState } = useCustomLogin();
+
+  const nicknameRef = useRef(null);
+
+  const [isEditingNickname, setIsEditingNickname] = useState(false);
+  const [newNickname, setNewNickname] = useState(loginState.nickname);
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalData, setModalData] = useState(initModalData);
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleOnChangeNicknameInput = (e) => {
+    setNewNickname(e.target.value);
+  };
+
+  const handleOnClickNicknameUpdateButton = () => {
+    if (nicknameRef.current.value === '') {
+      setIsOpen(true);
+      setModalData({
+        title: '닉네임 변경 실패',
+        content: '새 닉네임을 입력해 주세요.',
+        onClose: closeModal,
+      });
+      nicknameRef.current.focus();
+      return;
+    }
+    if (nicknameRef.current.value === loginState.nickname) {
+      setIsOpen(true);
+      setModalData({
+        title: '닉네임 변경 실패',
+        content: '기존 닉네임과 다른 닉네임을 입력해 주세요.',
+        onClose: closeModal,
+      });
+      nicknameRef.current.focus();
+      return;
+    }
+
+
+
+    setIsEditingNickname(false);
+  };
+
   return (
     <div className="flex-1 flex flex-col bg-gray-800 text-gray-100 rounded-lg shadow-lg p-8 h-full max-h-screen min-h-[70vh] pt-12">
       <h2 className="text-center text-2xl font-bold mb-4">프로필</h2>
@@ -10,10 +63,45 @@ function ProfileComponenet() {
         <p>가입일: {loginState.createdAt}</p>
         <p>이메일: {loginState.email}</p>
         <div className="flex items-center justify-center mt-2">
-          <p>닉네임: {loginState.nickname}</p>
-          <button className="ml-4 bg-blue-500 text-white px-3 py-1 rounded">
-            변경
-          </button>
+          {isEditingNickname ? (
+            <>
+              <label htmlFor="nickname" className="mr-3 text-gray-300">
+                닉네임:
+              </label>
+              <input
+                type="text"
+                id="nickname"
+                ref={nicknameRef}
+                onChange={handleOnChangeNicknameInput}
+                value={newNickname}
+                className="bg-gray-900 text-gray-200 rounded-md px-2 py-1 border border-gray-600 w-36"
+              />
+              <button
+                onClick={handleOnClickNicknameUpdateButton}
+                className="ml-4 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+              >
+                완료
+              </button>
+              <button
+                onClick={() => {
+                  setIsEditingNickname(false);
+                }}
+                className="ml-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-500"
+              >
+                취소
+              </button>
+            </>
+          ) : (
+            <>
+              <p>닉네임: {loginState.nickname}</p>
+              <button
+                onClick={() => setIsEditingNickname(true)}
+                className="ml-4 bg-blue-500 text-white px-3 py-1 rounded"
+              >
+                변경
+              </button>
+            </>
+          )}
         </div>
       </div>
       <div className="flex justify-center mb-6">
@@ -52,6 +140,15 @@ function ProfileComponenet() {
           <p className="text-sm">곽동렬 - 24.11.07</p>
         </div>
       </div>
+      <Modal
+        isOpen={isOpen}
+        title={modalData.title}
+        content={modalData.content}
+        buttonCloseText={modalData.buttonCloseText}
+        buttonText={modalData.buttonText}
+        onClose={modalData.onClose}
+        onClick={modalData.onClick}
+      />
     </div>
   );
 }

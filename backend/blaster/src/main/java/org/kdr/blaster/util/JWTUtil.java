@@ -57,15 +57,15 @@ public class JWTUtil {
                     .getBody();// 파싱 및 검증, 실패 시 에러
 
         }catch(MalformedJwtException malformedJwtException){
-            throw new CustomJWTException("MalFormed", malformedJwtException);
+            throw new CustomJWTException("MalFormed");
         }catch(ExpiredJwtException expiredJwtException){
-            throw new CustomJWTException("expired: " + token, expiredJwtException);
+            throw new CustomJWTException("expired: " + token);
         }catch(InvalidClaimException invalidClaimException){
-            throw new CustomJWTException("Invalid", invalidClaimException);
+            throw new CustomJWTException("Invalid");
         }catch(JwtException jwtException){
-            throw new CustomJWTException("JWTError", jwtException);
+            throw new CustomJWTException("JWTError");
         }catch(Exception e){
-            throw new CustomJWTException("JWTUtil.java validateToken Error", e);
+            throw new CustomJWTException("JWTUtil.java validateToken Error");
         }
 
         return claim;

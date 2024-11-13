@@ -26,7 +26,7 @@ public class CustomControllerAdvice {
 
     @ExceptionHandler(CustomJWTException.class)
     protected ResponseEntity<?> handleJWTException(CustomJWTException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", e.getCause() + ": " + e.getMessage()));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", e.getMessage()));
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)

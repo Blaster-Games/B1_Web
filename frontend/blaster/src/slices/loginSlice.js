@@ -29,10 +29,10 @@ const loginSlice = createSlice({
         return payload;
       })
       .addCase(loginPostAsync.pending, (state, action) => {
-        console.log(action);
+        // console.log(action);
       })
       .addCase(loginPostAsync.rejected, (state, action) => {
-        console.log(action);
+        // console.log(action);
       });
   },
 });

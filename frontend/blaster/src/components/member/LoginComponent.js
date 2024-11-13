@@ -1,10 +1,21 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useCustomLogin from '../../hooks/useCustomLogin';
+import Modal from '../common/Modal';
 
 function LoginComponent() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    emailRef.current.focus();
+  }, [isOpen]);
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   const { doLogin, moveToPath } = useCustomLogin();
 
@@ -20,7 +31,7 @@ function LoginComponent() {
 
     doLogin(userInfo).then((data) => {
       if (data && data.error) {
-        alert('이메일과 비밀번호를 확인해 주세요');
+        setIsOpen(true);
       } else {
         moveToPath('/');
       }
@@ -78,6 +89,12 @@ function LoginComponent() {
           </Link>
         </div>
       </div>
+      <Modal
+        isOpen={isOpen}
+        title={'로그인 실패'}
+        content={'이메일이나 비밀번호를 확인해 주세요'}
+        onClose={closeModal}
+      />
     </div>
   );
 }
