@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwtAxios from '../util/jwtUtil';
 
 export const API_SERVER_HOST = 'http://localhost:8080';
 
@@ -29,4 +30,13 @@ export const emailCheckGet = async (email) => {
 export const signUpPost = async (signUpParam) => {
   const res = await axios.post(`${prefix}/signup`, signUpParam);
   return res;
+};
+
+export const nicknameChangePost = async (nickname) => {
+  const res = await jwtAxios.put(`${prefix}/nickname`, { nickname });
+  return res.data;
+};
+
+export const passwordChangePut = async (passwordParam) => {
+  return await jwtAxios.put(`${prefix}/password`, passwordParam);
 };

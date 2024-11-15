@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* index.css 또는 global.css에 추가 */
+.scrollbar {
+    scrollbar-width: thin; /* Firefox 용으로 스크롤바 너비를 작게 설정 */
+    scrollbar-color: #4a5568 #1a202c; /* 스크롤 손잡이 및 트랙 색상 (Firefox) */
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 너비 */
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    background: #1a202c; /* 스크롤바 트랙 배경색 (어두운 색상) */
+    border-radius: 10px; /* 트랙 모서리를 둥글게 처리 */
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background-color: #4a5568; /* 스크롤 손잡이 색상 (중간 회색) */
+    border-radius: 10px; /* 스크롤 손잡이의 모서리 둥글게 처리 */
+    border: 2px solid #1a202c; /* 배경과의 간격을 유지하기 위한 테두리 */
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #718096; /* 손잡이에 마우스를 올렸을 때 색상 밝게 */
+}

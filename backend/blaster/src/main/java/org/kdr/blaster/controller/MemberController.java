@@ -1,6 +1,9 @@
 package org.kdr.blaster.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.kdr.blaster.dto.ChangeNicknameDTO;
+import org.kdr.blaster.dto.ChangePasswordDTO;
 import org.kdr.blaster.dto.SignUpRequestDTO;
 import org.kdr.blaster.service.MemberService;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/member")
+@Log4j2
 public class MemberController {
 
     private final MemberService memberService;
@@ -31,5 +35,15 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody SignUpRequestDTO signUpDTO) {
         return ResponseEntity.ok(memberService.signUp(signUpDTO));
+    }
+
+    @PutMapping("/nickname")
+    public ResponseEntity<?> changeNickname(@RequestBody ChangeNicknameDTO changeNicknameDTO) {
+        return memberService.changeNickname(changeNicknameDTO);
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
+        return memberService.changePassword(changePasswordDTO);
     }
 }

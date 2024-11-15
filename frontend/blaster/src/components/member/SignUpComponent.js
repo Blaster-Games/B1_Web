@@ -32,14 +32,6 @@ function SignUpComponent() {
   const [isValidationError, setIsValidationError] = useState(false);
   const [modalData, setModalData] = useState(initModalData);
   const [done, setDone] = useState(false);
-  const [focusTarget, setFocusTarget] = useState(null); // 포커스할 대상 상태 추가
-
-  useEffect(() => {
-    if (focusTarget) {
-      focusTarget.focus();
-      setFocusTarget(null);
-    }
-  }, [focusTarget]);
 
   useEffect(() => {
     emailRef.current.focus();
@@ -51,9 +43,6 @@ function SignUpComponent() {
   }
 
   const openWarningModal = (ref, message) => {
-    if (ref) {
-      setFocusTarget(ref.current);
-    }
     setModalData({
       ...initModalData,
       title: '회원가입 실패',
@@ -63,6 +52,7 @@ function SignUpComponent() {
       },
     });
     setIsValidationError(true);
+    ref.current.focus();
   };
 
   const nicknameCheckHandler = () => {

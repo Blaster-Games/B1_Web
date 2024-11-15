@@ -12,7 +12,7 @@ function MainComponent() {
           게임 경험을 즐겨보세요.
         </p>
         <button className="bg-blue-500 hover:bg-blue-400 text-white py-3 px-6 rounded-lg transition duration-300 shadow-md">
-          게임 시작하기
+          게임 다운로드
         </button>
       </main>
 

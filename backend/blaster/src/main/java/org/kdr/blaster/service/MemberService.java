@@ -6,17 +6,17 @@ import lombok.extern.log4j.Log4j2;
 import org.kdr.blaster.domain.GamePlayRecord;
 import org.kdr.blaster.domain.member.Member;
 import org.kdr.blaster.domain.member.UserRole;
-import org.kdr.blaster.dto.GamePlayRecordDTO;
-import org.kdr.blaster.dto.MemberDTO;
-import org.kdr.blaster.dto.SignUpRequestDTO;
-import org.kdr.blaster.dto.SignUpResponseDTO;
+import org.kdr.blaster.dto.*;
 import org.kdr.blaster.repository.MemberRepository;
 import org.kdr.blaster.util.AuthenticationUtil;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -63,5 +63,33 @@ public class MemberService {
 
         Member newUser = memberRepository.save(userDraft);
         return new SignUpResponseDTO(newUser.getNickname(), newUser.getEmail());
+    }
+
+    public ResponseEntity<?> changeNickname(ChangeNicknameDTO changeNicknameDTO) {
+        if (memberRepository.findByNickname(changeNicknameDTO.getNickname()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("message", "이미 사용 중인 닉네임입니다."));
+        }
+
+        MemberDTO memberDTO = AuthenticationUtil.getAuthenticatedMember();
+        Member before = memberRepository.findById(memberDTO.getId())
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+        before.changeNickname(changeNicknameDTO.getNickname());
+        before.onUpdate();
+        Member after = memberRepository.save(before);
+        return ResponseEntity.ok(Map.of("message", after.getNickname()));
+    }
+
+    public ResponseEntity<?> changePassword(ChangePasswordDTO changePasswordDTO) {
+        MemberDTO memberDTO = AuthenticationUtil.getAuthenticatedMember();
+        Member before = memberRepository.findById(memberDTO.getId())
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+        if (!passwordEncoder.matches(changePasswordDTO.getOldPassword(), before.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Incorrect_OldPassword"));
+        }
+
+        before.changePassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+        Member after = memberRepository.save(before);
+        return ResponseEntity.ok(Map.of("message", "success"));
     }
 }

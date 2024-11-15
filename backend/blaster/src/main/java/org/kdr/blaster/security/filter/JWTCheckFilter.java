@@ -27,6 +27,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
+        String method = request.getMethod();
 
         if (path.startsWith("/api/member/login")) {
             return true;
@@ -35,6 +36,9 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             return true;
         }
         if (path.startsWith("/api/member/signup")) {
+            return true;
+        }
+        if (path.startsWith("/api/post") && "GET".equalsIgnoreCase(method)) {
             return true;
         }
 
@@ -49,14 +53,13 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         try {
             String accessToken = authHeaderStr.substring(7);
             Claims claims = JWTUtil.validateToken(accessToken);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy. MM. dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy. MM. dd'T'HH:mm:ss");
 
             Long id = Long.valueOf(claims.getSubject());
             String email = (String) claims.get("email");
             UserRole userRole = UserRole.valueOf((String) claims.get("userRole"));
             String nickname = (String) claims.get("nickname");
             LocalDateTime createdAt = LocalDateTime.parse((String) claims.get("createdAt"), formatter);
-
 
             MemberDTO memberDTO = new MemberDTO(email, "", userRole, id, nickname, createdAt);
 
@@ -68,9 +71,8 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         }catch(Exception e){
-
             Gson gson = new Gson();
-            String msg = gson.toJson(Map.of("error", "JWTCheckFilter: " + e.getMessage()));
+            String msg = gson.toJson(Map.of("error", e.getMessage()));
 
             response.setContentType("application/json");
             PrintWriter printWriter = response.getWriter();

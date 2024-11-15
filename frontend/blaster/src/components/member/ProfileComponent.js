@@ -1,6 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useCustomLogin from '../../hooks/useCustomLogin';
 import Modal from '../common/Modal';
+import { nicknameChangePost } from '../../api/memberApi';
+import { Link } from 'react-router-dom';
+import { changeNickname } from '../../slices/loginSlice';
+import { useDispatch } from 'react-redux';
 
 const initModalData = {
   title: '',
@@ -11,7 +15,7 @@ const initModalData = {
   buttonText: '',
 };
 
-function ProfileComponenet() {
+function ProfileComponent() {
   const { loginState } = useCustomLogin();
 
   const nicknameRef = useRef(null);
@@ -20,6 +24,16 @@ function ProfileComponenet() {
   const [newNickname, setNewNickname] = useState(loginState.nickname);
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState(initModalData);
+  const [focusTarget, setFocusTarget] = useState(null);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (focusTarget) {
+      focusTarget.focus();
+      setFocusTarget(null);
+    }
+  }, [focusTarget]);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -50,18 +64,39 @@ function ProfileComponenet() {
       nicknameRef.current.focus();
       return;
     }
-
-
-
-    setIsEditingNickname(false);
+    nicknameChangePost(nicknameRef.current.value)
+      .then((res) => {
+        dispatch(changeNickname({ nickname: res.message }));
+        setIsOpen(true);
+        setModalData({
+          title: '닉네임 변경 성공',
+          content: `닉네임이 ${res.message}로 변경되었습니다.`,
+          onClose: closeModal,
+        });
+        setIsEditingNickname(false);
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 409) {
+          setIsOpen(true);
+          setModalData({
+            title: '닉네임 변경 실패',
+            content:
+              '이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해 주세요.',
+            onClose: closeModal,
+          });
+          setFocusTarget(nicknameRef.current);
+        } else {
+          console.error('다른 오류 발생:', err);
+        }
+      });
   };
 
   return (
     <div className="flex-1 flex flex-col bg-gray-800 text-gray-100 rounded-lg shadow-lg p-8 h-full max-h-screen min-h-[70vh] pt-12">
       <h2 className="text-center text-2xl font-bold mb-4">프로필</h2>
       <div className="mb-6 text-center">
-        <p>가입일: {loginState.createdAt}</p>
-        <p>이메일: {loginState.email}</p>
+        <p className={'my-3'}>가입일: {loginState.createdAt}</p>
+        <p className={'my-3'}>이메일: {loginState.email}</p>
         <div className="flex items-center justify-center mt-2">
           {isEditingNickname ? (
             <>
@@ -105,9 +140,12 @@ function ProfileComponenet() {
         </div>
       </div>
       <div className="flex justify-center mb-6">
-        <button className="bg-blue-500 text-white px-4 py-2 rounded mr-1">
+        <Link
+          to={'/member/change-password'}
+          className="bg-blue-500 text-white px-4 py-2 rounded mr-1"
+        >
           비밀번호 변경
-        </button>
+        </Link>
         <button className="bg-red-600 text-white px-4 py-2 rounded ml-1">
           회원 탈퇴
         </button>
@@ -153,4 +191,4 @@ function ProfileComponenet() {
   );
 }
 
-export default ProfileComponenet;
+export default ProfileComponent;

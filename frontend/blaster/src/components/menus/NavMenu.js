@@ -9,9 +9,9 @@ function NavMenu() {
           <li>
             <Link
               to="/"
-              className="text-white hover:text-blue-400 transition duration-300"
+              className="text-white hover:text-blue-400 text-lg transition duration-300"
             >
-              홈
+              🏠홈
             </Link>
           </li>
           <li>

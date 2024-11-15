@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(exclude = {"reactions", "comments"})
+@ToString(exclude = {"reactions", "comments", "member"})
 public class Post {
 
     @Id
@@ -34,6 +34,7 @@ public class Post {
     private LocalDateTime updatedAt;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     @Column(nullable = false)
@@ -76,8 +77,7 @@ public class Post {
         updatedAt = LocalDateTime.now();
     }
 
-    @PreUpdate
-    protected void onUpdate() {
+    public void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
 

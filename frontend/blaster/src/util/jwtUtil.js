@@ -19,8 +19,6 @@ const refreshJWT = async (accessToken, refreshToken) => {
 
 //before request
 const beforeReq = (config) => {
-  console.log('before request.............');
-
   const memberInfo = getCookie('member');
   if (!memberInfo) {
     console.log('Member NOT FOUND');
@@ -42,35 +40,29 @@ const requestFail = (err) => {
 
 //before return response
 const beforeRes = async (res) => {
-  console.log('before return response...........');
-
   const data = res.data;
 
   if (data && data.error) {
-    console.log(data.error);
-    const memberCookieValue = getCookie('member');
+    if (data.error === 'Expired') {
+      const memberCookieValue = getCookie('member');
 
-    console.log('memberCookieValue: ', memberCookieValue);
+      const result = await refreshJWT(
+        memberCookieValue.accessToken,
+        memberCookieValue.refreshToken,
+      );
 
-    const result = await refreshJWT(
-      memberCookieValue.accessToken,
-      memberCookieValue.refreshToken,
-    );
+      memberCookieValue.accessToken = result.accessToken;
+      memberCookieValue.refreshToken = result.refreshToken;
+      setCookie('member', JSON.stringify(memberCookieValue), 1);
 
-    console.log('refreshJWT result: ', result);
+      const originalRequest = res.config;
+      originalRequest.headers.Authorization = `Bearer ${result.accessToken}`;
 
-    memberCookieValue.accessToken = result.accessToken;
-    memberCookieValue.refreshToken = result.refreshToken;
-
-    setCookie('member', JSON.stringify(memberCookieValue), 1);
-
-    const originalRequest = res.config;
-
-    originalRequest.headers.Authorization = `Bearer ${result.accessToken}`;
-
-    return await axios(originalRequest);
+      return await axios(originalRequest);
+    } else if (data.error === 'RefreshToken_Expired') {
+      return Promise.reject({ response: { data: { error: 'REQUIRE_LOGIN' } } });
+    }
   }
-
   return res;
 };
 

@@ -18,6 +18,9 @@ const loginSlice = createSlice({
       removeCookie('member');
       return { ...initialState };
     },
+    changeNickname: (state, action) => {
+      state.nickname = action.payload.nickname;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -37,5 +40,5 @@ const loginSlice = createSlice({
   },
 });
 
-export const { logout } = loginSlice.actions;
+export const { logout, changeNickname } = loginSlice.actions;
 export default loginSlice.reducer;

@@ -78,7 +78,7 @@ public class Member {
         updatedAt = LocalDateTime.now();
     }
 
-    protected void onUpdate() {
+    public void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
 
