@@ -80,7 +80,7 @@ function ChangePasswordComponent() {
         });
       })
       .catch((err) => {
-        if (err.status === 401) {
+        if (err.status === 409) {
           setIsOpen(true);
           setModalData({
             title: '⚠️',

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.kdr.blaster.domain.board.Category;
 
 @SuperBuilder
 @Data
@@ -21,7 +22,7 @@ public class PostPageRequestDTO {
     @Builder.Default
     private String game = "blaster";
 
-    private String category;
+    private Category category;
 
     @Builder.Default
     private String sort = "createdAt";

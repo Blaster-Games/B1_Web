@@ -1,6 +1,8 @@
 import React from 'react';
+import useCustomMove from '../../hooks/useCustomMove';
 
 function PostListItem({
+  id,
   title,
   content,
   author,
@@ -9,8 +11,9 @@ function PostListItem({
   commentCount,
   viewCount,
 }) {
+  const { moveToDetail } = useCustomMove();
   return (
-    <div className="space-y-4 my-2">
+    <div onClick={() => moveToDetail(id)} className="space-y-4 my-2">
       <div className="bg-gray-700 p-4 rounded-lg">
         <h2 className="text-xl font-semibold">{title}</h2>
         <p className="mt-2">{content}</p>

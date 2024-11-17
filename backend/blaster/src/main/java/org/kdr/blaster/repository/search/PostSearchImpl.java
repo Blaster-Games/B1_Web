@@ -14,7 +14,6 @@ import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Log4j2
 public class PostSearchImpl extends QuerydslRepositorySupport implements PostSearch {
@@ -38,8 +37,11 @@ public class PostSearchImpl extends QuerydslRepositorySupport implements PostSea
             return new PageImpl<>(List.of(), PageRequest.of(1, 10), 0); // 해당 게임이 없는 경우 빈 페이지 반환
         }
 
-        query.where(post.category.eq(Category.valueOf(postPageRequestDTO.getCategory()))
+        query.where(post.category.eq(postPageRequestDTO.getCategory())
+                .and(post.deleted.eq(false))
                 .and(post.game.eq(g)));
+
+        long totalCount = query.fetchCount();
 
         Pageable pageable = PageRequest.of(
                 postPageRequestDTO.getPage() - 1,
@@ -53,7 +55,6 @@ public class PostSearchImpl extends QuerydslRepositorySupport implements PostSea
         this.getQuerydsl().applyPagination(pageable, query);
 
         List<PostListDTO> posts = query.fetch().stream().map(PostMapper::toPostListDTO).toList();
-        long totalCount = query.fetchCount();
 
         return new PageImpl<>(posts, pageable, totalCount);
     }

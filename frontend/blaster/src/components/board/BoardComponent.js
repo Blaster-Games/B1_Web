@@ -1,18 +1,14 @@
 import React, { useRef } from 'react';
 import PostListItem from './PostListItem';
 import { SORT } from '../../constants/boardConstants';
+import useCustomMove from '../../hooks/useCustomMove';
 
-function BoardComponent({ name, pageInfo, requestParam, setRequestParam }) {
+function BoardComponent({ name, pageInfo }) {
   const sortRef = useRef(null);
+  const { page, size, setQueryParams } = useCustomMove();
 
   function handleChangeSort() {
-    const sort = Object.keys(SORT).find(
-      (key) => SORT[key] === sortRef.current.value,
-    );
-    setRequestParam({
-      ...requestParam,
-      sort: SORT[sort],
-    });
+    setQueryParams(() => ({ page, size, sort: sortRef.current.value }));
   }
 
   return (
@@ -61,21 +57,18 @@ function BoardComponent({ name, pageInfo, requestParam, setRequestParam }) {
       </div>
       <div className="overflow-y-auto scrollbar">
         {/* 게시글 목록 */}
-        {pageInfo.itemList ? (
-          pageInfo.itemList.map((item) => (
-            <PostListItem
-              title={item.title}
-              content={item.content}
-              author={item.memberName}
-              createdAt={item.createdAt}
-              likes={item.likeCount}
-              commentCount={item.commentCount}
-              viewCount={item.viewCount}
-            />
-          ))
-        ) : (
-          <></>
-        )}
+        {pageInfo.itemList.map((item) => (
+          <PostListItem
+            id={item.id}
+            title={item.title}
+            content={item.content}
+            author={item.memberName}
+            createdAt={item.createdAt}
+            likes={item.likeCount}
+            commentCount={item.commentCount}
+            viewCount={item.viewCount}
+          />
+        ))}
       </div>
     </div>
   );

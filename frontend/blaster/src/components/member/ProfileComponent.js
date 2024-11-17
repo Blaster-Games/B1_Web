@@ -24,16 +24,13 @@ function ProfileComponent() {
   const [newNickname, setNewNickname] = useState(loginState.nickname);
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState(initModalData);
-  const [focusTarget, setFocusTarget] = useState(null);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (focusTarget) {
-      focusTarget.focus();
-      setFocusTarget(null);
-    }
-  }, [focusTarget]);
+  const handleOnClickChangeButton = () => {
+    setIsEditingNickname(true);
+    nicknameRef.current?.focus();
+  };
 
   const closeModal = () => {
     setIsOpen(false);
@@ -84,7 +81,7 @@ function ProfileComponent() {
               '이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해 주세요.',
             onClose: closeModal,
           });
-          setFocusTarget(nicknameRef.current);
+          nicknameRef.current.focus();
         } else {
           console.error('다른 오류 발생:', err);
         }
@@ -130,7 +127,7 @@ function ProfileComponent() {
             <>
               <p>닉네임: {loginState.nickname}</p>
               <button
-                onClick={() => setIsEditingNickname(true)}
+                onClick={handleOnClickChangeButton}
                 className="ml-4 bg-blue-500 text-white px-3 py-1 rounded"
               >
                 변경

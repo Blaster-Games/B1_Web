@@ -1,13 +1,8 @@
 import React from 'react';
+import useCustomMove from '../../hooks/useCustomMove';
 
-function Pagination({ requestParam, setRequestParam, pageInfo }) {
-  function handlePageClick(number) {
-    setRequestParam({
-      ...requestParam,
-      page: number,
-    });
-  }
-
+function Pagination({ pageInfo }) {
+  const { sort, setQueryParams } = useCustomMove();
   return (
     <div className="flex items-center justify-between rounded-b-lg bg-gray-800 px-4 py-3 sm:px-6">
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-center">
@@ -18,7 +13,13 @@ function Pagination({ requestParam, setRequestParam, pageInfo }) {
           >
             {pageInfo.prev ? (
               <button
-                onClick={() => handlePageClick(pageInfo.prevPage)}
+                onClick={() =>
+                  setQueryParams(() => ({
+                    page: pageInfo.prevPage,
+                    size: pageInfo.size,
+                    sort: sort,
+                  }))
+                }
                 className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
               >
                 <span className="sr-only">Previous</span>
@@ -37,10 +38,7 @@ function Pagination({ requestParam, setRequestParam, pageInfo }) {
                 </svg>
               </button>
             ) : (
-              <div
-                onClick={() => handlePageClick(pageInfo.prevPage)}
-                className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-500 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0"
-              >
+              <div className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-500 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0">
                 <span className="sr-only">Previous</span>
                 <svg
                   className="size-5"
@@ -61,7 +59,13 @@ function Pagination({ requestParam, setRequestParam, pageInfo }) {
             {pageInfo.pageNumList && pageInfo.pageNumList.length !== 0 ? (
               pageInfo.pageNumList.map((pageNum) => (
                 <button
-                  onClick={() => handlePageClick(pageNum)}
+                  onClick={() =>
+                    setQueryParams(() => ({
+                      page: pageNum,
+                      size: pageInfo.size,
+                      sort: sort,
+                    }))
+                  }
                   className={`relative z-10 inline-flex items-center px-4 py-2 text-sm font-semibold text-white 
                   ${pageInfo.current === pageNum ? 'bg-indigo-700' : ''}
                   hover:bg-indigo-500 focus:z-20 focus-visible:outline
@@ -81,7 +85,13 @@ function Pagination({ requestParam, setRequestParam, pageInfo }) {
 
             {pageInfo.next ? (
               <button
-                onClick={() => handlePageClick(pageInfo.nextPage)}
+                onClick={() =>
+                  setQueryParams(() => ({
+                    page: pageInfo.nextPage,
+                    size: pageInfo.size,
+                    sort: sort,
+                  }))
+                }
                 className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
               >
                 <span className="sr-only">Next</span>
@@ -100,10 +110,7 @@ function Pagination({ requestParam, setRequestParam, pageInfo }) {
                 </svg>
               </button>
             ) : (
-              <div
-                onClick={() => handlePageClick(pageInfo.nextPage)}
-                className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-500 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0"
-              >
+              <div className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-500 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0">
                 <span className="sr-only">Next</span>
                 <svg
                   className="size-5"

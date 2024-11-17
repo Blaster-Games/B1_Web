@@ -92,6 +92,7 @@ public class Member {
 
     public void changePassword(String password) {
         this.password = password;
+        onUpdate();
     }
 
     public void changeUserRole(UserRole userRole) {
@@ -100,9 +101,6 @@ public class Member {
 
     public void changeNickname(String nickname) {
         this.nickname = nickname;
-    }
-
-    public void changeUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+        onUpdate();
     }
 }

@@ -83,10 +83,12 @@ public class Post {
 
     public void changeTitle(String title) {
         this.title = title;
+        onUpdate();
     }
 
     public void changeContent(String content) {
         this.content = content;
+        onUpdate();
     }
 
     public void incrementViewCount() {
@@ -119,5 +121,6 @@ public class Post {
 
     public void deletePost() {
         this.deleted = true;
+        onUpdate();
     }
 }

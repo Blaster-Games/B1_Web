@@ -89,7 +89,7 @@ function SideMenu() {
           <h2 className="text-blue-200 font-bold mb-4">커뮤니티</h2>
           <li className="mb-4">
             <NavLink
-              to="/board/notice"
+              to="/board/notice?page=1&size=10&sort=createdAt"
               className={({ isActive }) =>
                 isActive
                   ? 'text-yellow-500 font-bold'
@@ -101,7 +101,7 @@ function SideMenu() {
           </li>
           <li>
             <NavLink
-              to="/board/general"
+              to="/board/general?page=1&size=10&sort=createdAt"
               className={({ isActive }) =>
                 isActive
                   ? 'text-yellow-500 font-bold'

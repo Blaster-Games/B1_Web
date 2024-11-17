@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import BasicLayout from '../../layouts/BasicLayout';
 import BoardComponent from '../../components/board/BoardComponent';
 import { CATEGORY, GAME, SORT } from '../../constants/boardConstants';
-import { postListGet } from '../../api/boardApi';
 import Pagination from '../../components/board/Pagination';
+import useCustomBoard from '../../hooks/useCustomBoard';
 
 const initialRequestParam = {
   page: 1,
@@ -13,31 +13,9 @@ const initialRequestParam = {
   sort: SORT.CREATED_AT,
 };
 
-const initialPageInfo = {
-  itemList: [],
-  pageNumList: null,
-  current: 1,
-  size: 10,
-  prevPage: 0,
-  nextPage: 11,
-  totalCount: 100,
-  totalPages: 1,
-  prev: false,
-  next: true,
-};
-
 function NoticeBoardPage() {
-  const [pageInfo, setPageInfo] = useState(initialPageInfo);
-  const [requestParam, setRequestParam] = useState(initialRequestParam);
-
-  useEffect(() => {
-    postListGet(requestParam)
-      .then((res) => {
-        console.log(res);
-        setPageInfo(res);
-      })
-      .catch(console.error);
-  }, [requestParam]);
+  const { pageInfo, requestParam, setRequestParam } =
+    useCustomBoard(initialRequestParam);
 
   return (
     <BasicLayout>

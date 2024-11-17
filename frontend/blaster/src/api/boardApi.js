@@ -9,3 +9,8 @@ export const postListGet = async (requestParam) => {
   const res = await axios.get(`${prefix}/list`, { params: requestParam });
   return res.data;
 };
+
+export const postGet = async (id) => {
+  const res = await jwtAxios.get(`${prefix}/${id}`);
+  return res.data;
+};
