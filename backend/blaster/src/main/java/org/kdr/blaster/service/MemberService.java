@@ -30,7 +30,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private Member getAuthenticatedMember() {
+    public Member getAuthenticatedMember() {
         MemberDTO memberDTO = AuthenticationUtil.getAuthenticatedMember();
         return memberRepository.findById(memberDTO.getId())
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));

@@ -22,7 +22,8 @@ public class PostPageRequestDTO {
     @Builder.Default
     private String game = "blaster";
 
-    private Category category;
+    @Builder.Default
+    private Category category = Category.GENERAL;
 
     @Builder.Default
     private String sort = "createdAt";

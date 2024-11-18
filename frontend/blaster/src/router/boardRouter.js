@@ -4,8 +4,6 @@ const Loading = <div>Loading...</div>;
 const Board = lazy(() => import('../pages/board/BoardPage'));
 const Post = lazy(() => import('../pages/board/PostDetailPage'));
 const CreatePost = lazy(() => import('../pages/board/CreatePostPage'));
-const Notice = lazy(() => import('../pages/board/NoticeBoardPage'));
-const General = lazy(() => import('../pages/board/GeneralBoardPage'));
 
 function boardRouter() {
   return [
@@ -25,38 +23,14 @@ function boardRouter() {
         </Suspense>
       ),
     },
-    // {
-    //   path: 'notice',
-    //   element: (
-    //     <Suspense fallback={Loading}>
-    //       <Notice />
-    //     </Suspense>
-    //   ),
-    // },
-    // {
-    //   path: 'general',
-    //   element: (
-    //     <Suspense fallback={Loading}>
-    //       <General />
-    //     </Suspense>
-    //   ),
-    // },
-    // {
-    //   path: 'notice/:id',
-    //   element: (
-    //     <Suspense fallback={Loading}>
-    //       <Post />
-    //     </Suspense>
-    //   ),
-    // },
-    // {
-    //   path: 'general/:id',
-    //   element: (
-    //     <Suspense fallback={Loading}>
-    //       <Post />
-    //     </Suspense>
-    //   ),
-    // },
+    {
+      path: ':category/create',
+      element: (
+        <Suspense fallback={Loading}>
+          <CreatePost />
+        </Suspense>
+      ),
+    },
   ];
 }
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { postGet } from '../../api/boardApi';
 import useCustomLogin from '../../hooks/useCustomLogin';
+import useCustomMove from '../../hooks/useCustomMove';
 
 const initialState = {
   category: '',
@@ -21,10 +22,21 @@ const initialState = {
 function PostDetailComponent({ id }) {
   const [postInfo, setPostInfo] = useState(initialState);
   const { loginState } = useCustomLogin();
+  const { moveToList } = useCustomMove();
+
+  const toList = (
+    <button
+      onClick={() => {
+        moveToList();
+      }}
+      className="bg-gray-700 text-white text-xs px-2 py-1 mx-1 rounded-lg"
+    >
+      목록으로
+    </button>
+  );
 
   useEffect(() => {
     postGet(id).then((res) => {
-      console.log(res);
       setPostInfo(res);
     });
   }, []);
@@ -35,15 +47,20 @@ function PostDetailComponent({ id }) {
       <h2 className="text-2xl font-bold mb-4">{postInfo.title}</h2>
 
       {/* 작성자 및 작성 시간 */}
-      <div className="flex justify-end items-center text-sm text-gray-400 mb-6">
+      <div className="flex items-center text-sm text-gray-400 mb-6">
         <span>
           {postInfo.memberName} - {postInfo.createdAt}
         </span>
+        {toList}
       </div>
 
       {/* 게시글 내용 */}
       <div className="mb-8 p-4 rounded-lg">
-        <p>{postInfo.content}</p>
+        <div
+          className="html-content"
+          dangerouslySetInnerHTML={{ __html: postInfo.content }} // HTML 렌더링
+        />
+        {/*<p>{postInfo.content}</p>*/}
       </div>
 
       {/* 추천 및 비추천 */}
@@ -68,7 +85,8 @@ function PostDetailComponent({ id }) {
         </div>
         {loginState.id === postInfo.memberId ? (
           <div>
-            <button className="bg-indigo-900 text-white text-xs px-2 py-1 mr-1 rounded-lg">
+            {toList}
+            <button className="bg-indigo-900 text-white text-xs px-2 py-1 mx-1 rounded-lg">
               수정
             </button>
             <button className="bg-pink-900 text-white text-xs px-2 py-1 ml-1 rounded-lg">
@@ -76,7 +94,7 @@ function PostDetailComponent({ id }) {
             </button>
           </div>
         ) : (
-          <></>
+          toList
         )}
       </div>
       <hr />

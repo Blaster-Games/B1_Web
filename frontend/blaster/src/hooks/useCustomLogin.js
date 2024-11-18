@@ -1,6 +1,6 @@
 import { loginPostAsync, logout } from '../slices/loginSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const useCustomLogin = () => {
   const dispatch = useDispatch();
@@ -8,6 +8,10 @@ const useCustomLogin = () => {
   const navigate = useNavigate();
 
   const loginState = useSelector((state) => state.loginSlice);
+
+  const location = useLocation();
+
+  const from = location.state?.from || { pathname: '/' };
 
   const isLogin = loginState.email ? true : false;
 
@@ -22,11 +26,37 @@ const useCustomLogin = () => {
     navigate({ pathname: path }, { replace: true });
   };
 
-  const moveToLogin = () => {
-    navigate({ pathname: '/member/login' }, { replace: true });
+  const redirectToLogin = () => {
+    navigate('/member/login', {
+      state: {
+        from: {
+          pathname: location.pathname,
+          search: location.search,
+        },
+      },
+      replace: true,
+    });
   };
 
-  return { loginState, isLogin, doLogin, doLogout, moveToPath, moveToLogin };
+  const moveToFrom = () => {
+    navigate(
+      {
+        pathname: from.pathname,
+        search: from.search,
+      },
+      { replace: true },
+    );
+  };
+
+  return {
+    loginState,
+    isLogin,
+    doLogin,
+    doLogout,
+    moveToPath,
+    redirectToLogin,
+    moveToFrom,
+  };
 };
 
 export default useCustomLogin;

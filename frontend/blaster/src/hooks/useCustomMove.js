@@ -1,6 +1,7 @@
 import {
   createSearchParams,
   useNavigate,
+  useParams,
   useSearchParams,
 } from 'react-router-dom';
 import { useState } from 'react';
@@ -21,6 +22,8 @@ const useCustomMove = () => {
 
   const [queryParams, setQueryParams] = useSearchParams();
 
+  const { category } = useParams();
+
   const page = getNum(queryParams.get('page'), 1);
   const size = getNum(queryParams.get('size'), 10);
   const sort = getString(queryParams.get('sort'), SORT.CREATED_AT);
@@ -34,7 +37,14 @@ const useCustomMove = () => {
     });
   };
 
-  const moveToList = (category, pageParam) => {
+  const moveToCreate = () => {
+    navigate({
+      pathname: `./create`,
+      search: queryDefault,
+    });
+  };
+
+  const moveToList = (pageParam) => {
     let queryStr = queryDefault;
 
     if (pageParam) {
@@ -63,6 +73,8 @@ const useCustomMove = () => {
     queryParams,
     setQueryParams,
     refresh,
+    category,
+    moveToCreate,
   };
 };
 

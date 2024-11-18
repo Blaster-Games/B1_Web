@@ -17,7 +17,7 @@ function LoginComponent() {
     setIsOpen(false);
   }
 
-  const { doLogin, moveToPath } = useCustomLogin();
+  const { doLogin, moveToFrom } = useCustomLogin();
 
   useEffect(() => {
     emailRef.current.focus();
@@ -33,7 +33,7 @@ function LoginComponent() {
       if (data && data.error) {
         setIsOpen(true);
       } else {
-        moveToPath('/');
+        moveToFrom();
       }
     });
   };

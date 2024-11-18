@@ -4,9 +4,9 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/blaster_db
-    username: blaster_user
-    password: a1234b@
+    url: ${DB_URL} # 환경 변수로 관리
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
@@ -15,3 +15,11 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}
+    region:
+      static: ${AWS_REGION}

@@ -16,7 +16,7 @@ function PostListItem({
     <div onClick={() => moveToDetail(id)} className="space-y-4 my-2">
       <div className="bg-gray-700 p-4 rounded-lg">
         <h2 className="text-xl font-semibold">{title}</h2>
-        <p className="mt-2">{content}</p>
+        {/*<p className="mt-2">{content}</p>*/}
         <div className="flex justify-between items-center mt-4">
           <span className="text-sm text-gray-400">
             {author} - {createdAt}

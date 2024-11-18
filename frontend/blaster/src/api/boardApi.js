@@ -11,6 +11,26 @@ export const postListGet = async (requestParam) => {
 };
 
 export const postGet = async (id) => {
-  const res = await jwtAxios.get(`${prefix}/${id}`);
+  const res = await axios.get(`${prefix}/${id}`);
   return res.data;
+};
+
+export const getImageUrlsPost = async (formData) => {
+  const res = await jwtAxios.post(
+    `${API_SERVER_HOST}/api/upload/images`,
+    formData,
+    {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    },
+  );
+  console.log(res);
+  return res;
+};
+
+export const createPostPost = async (category, title, updatedHtml) => {
+  return await jwtAxios.post(`${prefix}`, {
+    category: category.toUpperCase(),
+    title: title,
+    content: updatedHtml,
+  });
 };

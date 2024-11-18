@@ -3,17 +3,18 @@ package org.kdr.blaster.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.kdr.blaster.domain.board.Category;
 import org.kdr.blaster.domain.board.Post;
-import org.kdr.blaster.dto.PostDTO;
-import org.kdr.blaster.dto.PostListDTO;
-import org.kdr.blaster.dto.PostPageRequestDTO;
-import org.kdr.blaster.dto.PageResponseDTO;
+import org.kdr.blaster.domain.member.Member;
+import org.kdr.blaster.dto.*;
 import org.kdr.blaster.exception.PageOutOfBoundsException;
 import org.kdr.blaster.mapper.PostMapper;
+import org.kdr.blaster.repository.GameRepository;
 import org.kdr.blaster.repository.PostRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Service
@@ -23,6 +24,8 @@ import java.util.NoSuchElementException;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final GameRepository gameRepository;
+    private final MemberService memberService;
 
     public PageResponseDTO<PostListDTO> getPosts(PostPageRequestDTO postPageRequestDTO) {
         if (postPageRequestDTO.getPage() < 1) {
@@ -47,5 +50,18 @@ public class PostService {
             throw new NoSuchElementException("해당 게시물을 찾지 못하였습니다.");
         }
         return PostMapper.toPostDTO(post);
+    }
+
+    public Map<String, String> createPost(CreatePostRequestDTO createPostRequestDTO) {
+        Member member = memberService.getAuthenticatedMember();
+        Post post = Post.builder()
+                .title(createPostRequestDTO.getTitle())
+                .content(createPostRequestDTO.getContent())
+                .category(createPostRequestDTO.getCategory())
+                .member(member)
+                .game(gameRepository.findById(1L).orElseThrow())
+                .build();
+        postRepository.save(post);
+        return Map.of("message", "success");
     }
 }

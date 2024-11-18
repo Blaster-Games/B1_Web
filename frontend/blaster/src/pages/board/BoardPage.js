@@ -15,6 +15,7 @@ const initialRequestParam = {
 
 function BoardPage() {
   const { pageInfo, category } = useCustomBoard(initialRequestParam);
+
   return (
     <BasicLayout>
       <div className="flex flex-col flex-1 overflow-hidden">

@@ -3,7 +3,6 @@ import { getCookie, removeCookie, setCookie } from '../util/cookieUtils';
 import { loginPost } from '../api/memberApi';
 
 const initialState = {
-  email: '',
 };
 
 export const loginPostAsync = createAsyncThunk('loginPostAsync', (param) =>

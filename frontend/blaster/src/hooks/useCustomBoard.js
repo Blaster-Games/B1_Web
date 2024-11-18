@@ -2,7 +2,6 @@ import useCustomMove from './useCustomMove';
 import { useEffect, useState } from 'react';
 import { postListGet } from '../api/boardApi';
 import { useParams } from 'react-router-dom';
-import { CATEGORY } from '../constants/boardConstants';
 
 const initialPageInfo = {
   itemList: [],
@@ -34,11 +33,13 @@ const useCustomBoard = (RequestParam) => {
   }, [page, size, category, sort]);
 
   useEffect(() => {
-    postListGet(requestParam)
-      .then((res) => {
-        setPageInfo(res);
-      })
-      .catch(console.error);
+    if (requestParam.category) {
+      postListGet(requestParam)
+        .then((res) => {
+          setPageInfo(res);
+        })
+        .catch(console.error);
+    }
   }, [requestParam]);
 
   return { pageInfo, requestParam, setRequestParam, category };

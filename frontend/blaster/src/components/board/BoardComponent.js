@@ -2,10 +2,21 @@ import React, { useRef } from 'react';
 import PostListItem from './PostListItem';
 import { SORT } from '../../constants/boardConstants';
 import useCustomMove from '../../hooks/useCustomMove';
+import useCustomLogin from '../../hooks/useCustomLogin';
 
 function BoardComponent({ name, pageInfo }) {
   const sortRef = useRef(null);
-  const { page, size, setQueryParams } = useCustomMove();
+  const { page, size, category, setQueryParams, moveToCreate } =
+    useCustomMove();
+  const { isLogin, loginState, redirectToLogin } = useCustomLogin();
+
+  const handleClickCreatePost = () => {
+    if (!isLogin) {
+      redirectToLogin();
+      return;
+    }
+    moveToCreate();
+  };
 
   function handleChangeSort() {
     setQueryParams(() => ({ page, size, sort: sortRef.current.value }));
@@ -51,9 +62,16 @@ function BoardComponent({ name, pageInfo }) {
           <option value={`${SORT.LIKE_COUNT}`}>추천 순</option>
         </select>
         {/* 글 작성 버튼 */}
-        <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 ml-4">
-          글 작성
-        </button>
+        {category === 'notice' && loginState.userRole === 'USER' ? (
+          <></>
+        ) : (
+          <div
+            onClick={handleClickCreatePost}
+            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 ml-4"
+          >
+            글 작성
+          </div>
+        )}
       </div>
       <div className="overflow-y-auto scrollbar">
         {/* 게시글 목록 */}

@@ -2,6 +2,7 @@ package org.kdr.blaster.mapper;
 
 import org.kdr.blaster.domain.board.Post;
 import org.kdr.blaster.domain.member.Member;
+import org.kdr.blaster.dto.CreatePostRequestDTO;
 import org.kdr.blaster.dto.PostDTO;
 import org.kdr.blaster.dto.PostListDTO;
 import org.kdr.blaster.util.DateTimeUtil;

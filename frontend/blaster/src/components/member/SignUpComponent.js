@@ -25,7 +25,7 @@ function SignUpComponent() {
   const password1Ref = useRef(null);
   const password2Ref = useRef(null);
 
-  const { moveToLogin } = useCustomLogin();
+  const { redirectToLogin } = useCustomLogin();
 
   const [isNickNameChecked, setIsNickNameChecked] = useState(false);
   const [isEmailChecked, setIsEmailChecked] = useState(false);
@@ -39,7 +39,7 @@ function SignUpComponent() {
 
   function closeSuccessModal() {
     setDone(false);
-    moveToLogin();
+    redirectToLogin();
   }
 
   const openWarningModal = (ref, message) => {
