@@ -1,12 +1,9 @@
-package org.kdr.blaster.dto;
+package org.kdr.blaster.dto.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Builder
@@ -37,7 +34,4 @@ public class PostDTO {
     private Long memberId;
 
     private String memberName;
-
-    @Builder.Default
-    private List<CommentDTO> comments = new ArrayList<>();
 }

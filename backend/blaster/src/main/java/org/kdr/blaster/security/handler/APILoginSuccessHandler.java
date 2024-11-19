@@ -5,7 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
-import org.kdr.blaster.dto.MemberDTO;
+import org.kdr.blaster.dto.member.MemberDTO;
 import org.kdr.blaster.util.AuthenticationUtil;
 import org.kdr.blaster.util.JWTUtil;
 import org.springframework.security.core.Authentication;
@@ -24,7 +24,7 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
 
         Map<String, Object> claims = memberDTO.getClaims();
 
-        String accessToken = JWTUtil.generateAccessToken(memberDTO.getId(), claims, 1);
+        String accessToken = JWTUtil.generateAccessToken(memberDTO.getId(), claims, 10);
         String refreshToken = JWTUtil.generateRefreshToken(memberDTO.getId(), 60 * 24 * 7);
 
         claims.put("accessToken", accessToken);

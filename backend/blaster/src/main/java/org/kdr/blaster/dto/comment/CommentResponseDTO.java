@@ -1,4 +1,4 @@
-package org.kdr.blaster.dto;
+package org.kdr.blaster.dto.comment;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentDTO {
+public class CommentResponseDTO {
 
     private Long id;
 

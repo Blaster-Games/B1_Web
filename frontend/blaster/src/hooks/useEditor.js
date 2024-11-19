@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { createPostPost, getImageUrlsPost } from '../api/boardApi';
+import { postPost, getImageUrlsPost } from '../api/boardApi';
 import useCustomMove from './useCustomMove';
 import { useParams } from 'react-router-dom';
 
@@ -85,7 +85,7 @@ const useEditor = () => {
 
         const updatedHtml = doc.body.innerHTML;
 
-        createPostPost(category, title, updatedHtml)
+        postPost(category, title, updatedHtml)
           .then((res) => {
             console.log(res);
             moveToList();
@@ -105,7 +105,7 @@ const useEditor = () => {
     // const updatedHtml = doc.body.innerHTML;
     // console.log('최종 HTML:', updatedHtml);
     //
-    // createPostPost(updatedHtml)
+    // postPost(updatedHtml)
     //   .then((res) => {
     //     console.log(res);
     //     moveToList();
@@ -123,7 +123,7 @@ const useEditor = () => {
   //   const updatedHtml = doc.body.innerHTML;
   //   console.log('최종 HTML:', updatedHtml);
   //
-  //   createPostPost(updatedHtml)
+  //   postPost(updatedHtml)
   //     .then((res) => {
   //       console.log(res);
   //       moveToList();

@@ -1,4 +1,4 @@
-package org.kdr.blaster.dto;
+package org.kdr.blaster.dto.comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,11 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-public class SignUpRequestDTO {
-    private String nickname;
-    private String email;
-    private String password;
+public class CreateCommentRequestDTO {
+
+    private String content;
+
+    private Long postId;
 }

@@ -2,7 +2,7 @@ package org.kdr.blaster.security;
 
 import lombok.RequiredArgsConstructor;
 import org.kdr.blaster.domain.member.Member;
-import org.kdr.blaster.dto.MemberDTO;
+import org.kdr.blaster.dto.member.MemberDTO;
 import org.kdr.blaster.repository.MemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

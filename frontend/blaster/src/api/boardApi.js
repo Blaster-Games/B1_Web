@@ -3,15 +3,16 @@ import jwtAxios from '../util/jwtUtil';
 
 const API_SERVER_HOST = 'http://localhost:8080';
 
-const prefix = `${API_SERVER_HOST}/api/post`;
+const postPrefix = `${API_SERVER_HOST}/api/post`;
+const commentPrefix = `${API_SERVER_HOST}/api/comment`;
 
 export const postListGet = async (requestParam) => {
-  const res = await axios.get(`${prefix}/list`, { params: requestParam });
+  const res = await axios.get(`${postPrefix}/list`, { params: requestParam });
   return res.data;
 };
 
 export const postGet = async (id) => {
-  const res = await axios.get(`${prefix}/${id}`);
+  const res = await axios.get(`${postPrefix}/${id}`);
   return res.data;
 };
 
@@ -27,10 +28,32 @@ export const getImageUrlsPost = async (formData) => {
   return res;
 };
 
-export const createPostPost = async (category, title, updatedHtml) => {
-  return await jwtAxios.post(`${prefix}`, {
+export const postPost = async (category, title, updatedHtml) => {
+  return await jwtAxios.post(`${postPrefix}`, {
     category: category.toUpperCase(),
     title: title,
     content: updatedHtml,
   });
+};
+
+export const commentListGet = async (postId) => {
+  return await axios.get(`${commentPrefix}/list/${postId}`);
+};
+
+export const commentPost = async (content, postId) => {
+  return await jwtAxios.post(`${commentPrefix}/`, {
+    content: content,
+    postId: postId,
+  });
+};
+
+export const commentPut = async (commentId, content) => {
+  return await jwtAxios.put(`${commentPrefix}/`, {
+    commentId: commentId,
+    content: content,
+  });
+};
+
+export const commentDelete = async (commentId) => {
+  return await jwtAxios.delete(`${commentPrefix}/${commentId}`);
 };

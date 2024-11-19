@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 import org.kdr.blaster.domain.member.Member;
-import org.kdr.blaster.dto.MemberDTO;
+import org.kdr.blaster.dto.member.MemberDTO;
 import org.kdr.blaster.repository.MemberRepository;
 import org.kdr.blaster.util.AuthenticationUtil;
 import org.kdr.blaster.util.JWTUtil;

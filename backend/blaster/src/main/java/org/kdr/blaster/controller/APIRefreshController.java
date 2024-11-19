@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.kdr.blaster.domain.member.Member;
-import org.kdr.blaster.dto.MemberDTO;
+import org.kdr.blaster.dto.member.MemberDTO;
 import org.kdr.blaster.exception.MemberNotFoundException;
 import org.kdr.blaster.repository.MemberRepository;
 import org.kdr.blaster.util.CustomJWTException;
@@ -52,7 +52,7 @@ public class APIRefreshController {
             Member member = memberRepository.findById(id).orElseThrow(() -> new MemberNotFoundException("사용자를 찾을 수 없습니다."));
             MemberDTO memberDTO = new MemberDTO(member);
 
-            String newAccessToken = JWTUtil.generateAccessToken(Long.valueOf(claims.getSubject()), memberDTO.getClaims(), 1);
+            String newAccessToken = JWTUtil.generateAccessToken(Long.valueOf(claims.getSubject()), memberDTO.getClaims(), 10);
             String newRefreshToken = checkTime((Integer) claims.get("exp")) ?
                     JWTUtil.generateRefreshToken(Long.valueOf(claims.getSubject()), 60 * 24 * 7) : refreshToken;
 

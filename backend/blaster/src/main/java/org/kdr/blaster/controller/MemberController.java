@@ -2,9 +2,9 @@ package org.kdr.blaster.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.kdr.blaster.dto.ChangeNicknameDTO;
-import org.kdr.blaster.dto.ChangePasswordDTO;
-import org.kdr.blaster.dto.SignUpRequestDTO;
+import org.kdr.blaster.dto.member.ChangeNicknameDTO;
+import org.kdr.blaster.dto.member.ChangePasswordDTO;
+import org.kdr.blaster.dto.member.SignUpRequestDTO;
 import org.kdr.blaster.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

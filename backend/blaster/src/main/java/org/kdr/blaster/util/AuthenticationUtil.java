@@ -1,6 +1,6 @@
 package org.kdr.blaster.util;
 
-import org.kdr.blaster.dto.MemberDTO;
+import org.kdr.blaster.dto.member.MemberDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

@@ -1,4 +1,4 @@
-package org.kdr.blaster.dto;
+package org.kdr.blaster.dto.member;
 
 import lombok.*;
 import org.kdr.blaster.domain.member.Member;

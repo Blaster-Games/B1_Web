@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(exclude = "reactions")
+@ToString(exclude = {"reactions", "member", "post"})
 public class Comment {
 
     @Id
@@ -41,15 +41,15 @@ public class Comment {
 //    @Column(nullable = false)
 //    private int childCommentCount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    @OneToMany(mappedBy = "comment")
+    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
     @Builder.Default
     private List<MemberCommentReaction> reactions = new ArrayList<>();
 
@@ -68,6 +68,7 @@ public class Comment {
 
     public void changeContent(String content) {
         this.content = content;
+        onUpdate();
     }
 
     public void incrementLikeCount() {
@@ -96,6 +97,7 @@ public class Comment {
 
     public void deleteComment() {
         this.deleted = true;
+        onUpdate();
     }
 
 }

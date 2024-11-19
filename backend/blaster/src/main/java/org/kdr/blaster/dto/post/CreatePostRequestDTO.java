@@ -1,4 +1,4 @@
-package org.kdr.blaster.dto;
+package org.kdr.blaster.dto.post;
 
 import lombok.Data;
 import org.kdr.blaster.domain.board.Category;

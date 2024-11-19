@@ -1,4 +1,4 @@
-package org.kdr.blaster.dto;
+package org.kdr.blaster.dto.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

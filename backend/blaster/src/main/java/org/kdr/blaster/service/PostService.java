@@ -3,10 +3,13 @@ package org.kdr.blaster.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.kdr.blaster.domain.board.Category;
 import org.kdr.blaster.domain.board.Post;
 import org.kdr.blaster.domain.member.Member;
 import org.kdr.blaster.dto.*;
+import org.kdr.blaster.dto.post.CreatePostRequestDTO;
+import org.kdr.blaster.dto.post.PostDTO;
+import org.kdr.blaster.dto.post.PostListDTO;
+import org.kdr.blaster.dto.post.PostPageRequestDTO;
 import org.kdr.blaster.exception.PageOutOfBoundsException;
 import org.kdr.blaster.mapper.PostMapper;
 import org.kdr.blaster.repository.GameRepository;
@@ -45,10 +48,7 @@ public class PostService {
     }
 
     public PostDTO getPost(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new NoSuchElementException("해당 게시물을 찾지 못하였습니다."));
-        if (post.isDeleted()) {
-            throw new NoSuchElementException("해당 게시물을 찾지 못하였습니다.");
-        }
+        Post post = postRepository.findByIdAndDeletedFalse(id).orElseThrow(() -> new NoSuchElementException("해당 게시물을 찾지 못하였습니다."));
         return PostMapper.toPostDTO(post);
     }
 

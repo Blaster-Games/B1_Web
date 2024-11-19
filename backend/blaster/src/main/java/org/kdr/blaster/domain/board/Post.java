@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(exclude = {"reactions", "comments", "member"})
+@ToString(exclude = {"reactions", "comments", "member", "game", "imageUrls"})
 public class Post {
 
     @Id
@@ -52,21 +52,25 @@ public class Post {
     @Column(nullable = false)
     private boolean deleted;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id", nullable = false)
     private Game game;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     @Builder.Default
     private List<MemberPostReaction> reactions = new ArrayList<>();
+
+    @Builder.Default
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<String> imageUrls = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "post")
 //    private List<ChildComment> childComments;

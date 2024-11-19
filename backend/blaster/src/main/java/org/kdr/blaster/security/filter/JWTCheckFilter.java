@@ -2,14 +2,13 @@ package org.kdr.blaster.security.filter;
 
 import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 import org.kdr.blaster.domain.member.UserRole;
-import org.kdr.blaster.dto.MemberDTO;
+import org.kdr.blaster.dto.member.MemberDTO;
 import org.kdr.blaster.util.JWTUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,6 +38,9 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             return true;
         }
         if (path.startsWith("/api/post") && "GET".equalsIgnoreCase(method)) {
+            return true;
+        }
+        if (path.startsWith("/api/comment") && "GET".equalsIgnoreCase(method)) {
             return true;
         }
 

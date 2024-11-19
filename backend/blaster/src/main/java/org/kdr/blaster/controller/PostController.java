@@ -2,8 +2,8 @@ package org.kdr.blaster.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.kdr.blaster.dto.CreatePostRequestDTO;
-import org.kdr.blaster.dto.PostPageRequestDTO;
+import org.kdr.blaster.dto.post.CreatePostRequestDTO;
+import org.kdr.blaster.dto.post.PostPageRequestDTO;
 import org.kdr.blaster.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

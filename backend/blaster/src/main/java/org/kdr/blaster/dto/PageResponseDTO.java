@@ -1,6 +1,7 @@
 package org.kdr.blaster.dto;
 
 import lombok.Data;
+import org.kdr.blaster.dto.post.PostPageRequestDTO;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
