@@ -1,11 +1,10 @@
-package org.kdr.blaster.dto;
+package org.kdr.blaster.dto.game;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.kdr.blaster.domain.GamePlayRecord;
+import org.kdr.blaster.domain.member.GamePlayRecord;
 
 import java.time.LocalDateTime;
 

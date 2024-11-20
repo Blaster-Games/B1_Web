@@ -23,18 +23,18 @@ public class PostController {
         return ResponseEntity.ok(postService.getPosts(postPageRequestDTO));
     }
 
-    @GetMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> getPost(@PathVariable Long id) {
         return ResponseEntity.ok(postService.getPost(id));
-    }
-
-    @PostMapping("")
-    public ResponseEntity<?> createPost(@RequestBody CreatePostRequestDTO createPostRequestDTO) {
-        return ResponseEntity.ok(postService.createPost(createPostRequestDTO));
     }
 
     @GetMapping("/reaction/{id}")
     public ResponseEntity<?> getReactionCount(@PathVariable Long id) {
         return ResponseEntity.ok(postService.getReactionCount(id));
+    }
+
+    @PostMapping("")
+    public ResponseEntity<?> createPost(@RequestBody CreatePostRequestDTO createPostRequestDTO) {
+        return ResponseEntity.ok(postService.createPost(createPostRequestDTO));
     }
 }

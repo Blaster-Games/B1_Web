@@ -1,9 +1,9 @@
-package org.kdr.blaster.domain;
+package org.kdr.blaster.domain.game;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.kdr.blaster.domain.board.Post;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,9 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(exclude = "posts")
-public class Game {
-
+@ToString(exclude = {"buffCountPerMatch"})
+@Table
+public class Buff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,6 +21,7 @@ public class Game {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "game")
-    private List<Post> posts;
+    @OneToMany(mappedBy = "buff", fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<BuffCountPerMatch> buffCountPerMatch = new ArrayList<>();
 }

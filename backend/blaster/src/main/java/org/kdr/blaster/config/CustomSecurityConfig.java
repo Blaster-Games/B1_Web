@@ -111,7 +111,7 @@ public class CustomSecurityConfig {
         configuration.setAllowedOriginPatterns(List.of("http://localhost:3000"));
 
         // 허용할 HTTP 메서드를 명시합니다.
-        configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
 
         // 허용할 헤더를 명시합니다.
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));

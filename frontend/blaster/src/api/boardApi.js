@@ -12,8 +12,8 @@ export const postListGet = async (requestParam) => {
   return res.data;
 };
 
-export const postGet = async (id) => {
-  const res = await axios.get(`${postPrefix}/${id}`);
+export const getPostPatch = async (id) => {
+  const res = await axios.patch(`${postPrefix}/${id}`);
   return res.data;
 };
 

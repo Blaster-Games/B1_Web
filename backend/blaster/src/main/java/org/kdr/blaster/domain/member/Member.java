@@ -2,7 +2,6 @@ package org.kdr.blaster.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.kdr.blaster.domain.GamePlayRecord;
 import org.kdr.blaster.domain.board.*;
 
 import java.time.LocalDateTime;
@@ -60,15 +59,15 @@ public class Member {
 //    @OneToMany(mappedBy = "member")
 //    private List<ChildComment> childComments;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     @Builder.Default
-    private List<MemberPostReaction> memberPostReaction = new ArrayList<>();
+    private List<MemberPostReaction> memberPostReactions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     @Builder.Default
     private List<MemberCommentReaction> memberCommentReactions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     @Builder.Default
     private List<GamePlayRecord> gamePlayRecords = new ArrayList<>();
 

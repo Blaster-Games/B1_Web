@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { postGet } from '../../api/boardApi';
+import { getPostPatch, postGet } from '../../api/boardApi';
 import useCustomLogin from '../../hooks/useCustomLogin';
 import useCustomMove from '../../hooks/useCustomMove';
 import CommentListComponent from './CommentListComponent';
@@ -37,7 +37,7 @@ function PostDetailComponent({ id }) {
   );
 
   useEffect(() => {
-    postGet(id).then((res) => {
+    getPostPatch(id).then((res) => {
       setPostInfo(res);
     });
   }, []);

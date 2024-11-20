@@ -1,8 +1,7 @@
-package org.kdr.blaster.domain;
+package org.kdr.blaster.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.kdr.blaster.domain.member.Member;
 
 import java.time.LocalDateTime;
 

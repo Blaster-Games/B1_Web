@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PostListItem from './PostListItem';
 import { SORT } from '../../constants/boardConstants';
 import useCustomMove from '../../hooks/useCustomMove';
@@ -6,9 +6,13 @@ import useCustomLogin from '../../hooks/useCustomLogin';
 
 function BoardComponent({ name, pageInfo }) {
   const sortRef = useRef(null);
-  const { page, size, category, setQueryParams, moveToCreate } =
+  const { page, size, sort, category, setQueryParams, moveToCreate } =
     useCustomMove();
   const { isLogin, loginState, redirectToLogin } = useCustomLogin();
+
+  useEffect(() => {
+    sortRef.current.value = sort;
+  });
 
   const handleClickCreatePost = () => {
     if (!isLogin) {

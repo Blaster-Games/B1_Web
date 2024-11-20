@@ -46,7 +46,9 @@ public class PostService {
 
     public PostDTO getPost(Long id) {
         Post post = postRepository.findByIdAndDeletedFalse(id).orElseThrow(() -> new NoSuchElementException("해당 게시물을 찾지 못하였습니다."));
-        return PostMapper.toPostDTO(post);
+        post.incrementViewCount();
+        Post result = postRepository.save(post);
+        return PostMapper.toPostDTO(result);
     }
 
     public Map<String, String> createPost(CreatePostRequestDTO createPostRequestDTO) {

@@ -2,7 +2,7 @@ package org.kdr.blaster.repository.search;
 
 import com.querydsl.jpa.JPQLQuery;
 import lombok.extern.log4j.Log4j2;
-import org.kdr.blaster.domain.Game;
+import org.kdr.blaster.domain.game.Game;
 import org.kdr.blaster.domain.QGame;
 import org.kdr.blaster.domain.board.Post;
 import org.kdr.blaster.domain.board.QPost;
