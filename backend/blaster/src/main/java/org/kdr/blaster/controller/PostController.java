@@ -32,4 +32,9 @@ public class PostController {
     public ResponseEntity<?> createPost(@RequestBody CreatePostRequestDTO createPostRequestDTO) {
         return ResponseEntity.ok(postService.createPost(createPostRequestDTO));
     }
+
+    @GetMapping("/reaction/{id}")
+    public ResponseEntity<?> getReactionCount(@PathVariable Long id) {
+        return ResponseEntity.ok(postService.getReactionCount(id));
+    }
 }

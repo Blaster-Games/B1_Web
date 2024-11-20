@@ -6,10 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import org.kdr.blaster.domain.board.Post;
 import org.kdr.blaster.domain.member.Member;
 import org.kdr.blaster.dto.*;
-import org.kdr.blaster.dto.post.CreatePostRequestDTO;
-import org.kdr.blaster.dto.post.PostDTO;
-import org.kdr.blaster.dto.post.PostListDTO;
-import org.kdr.blaster.dto.post.PostPageRequestDTO;
+import org.kdr.blaster.dto.post.*;
 import org.kdr.blaster.exception.PageOutOfBoundsException;
 import org.kdr.blaster.mapper.PostMapper;
 import org.kdr.blaster.repository.GameRepository;
@@ -63,5 +60,10 @@ public class PostService {
                 .build();
         postRepository.save(post);
         return Map.of("message", "success");
+    }
+
+    public PostReactionCountResponseDTO getReactionCount(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new NoSuchElementException("해당 게시글을 찾을 수 없습니다."));
+        return new PostReactionCountResponseDTO(post.getLikeCount(), post.getDislikeCount());
     }
 }

@@ -31,5 +31,6 @@ public class MemberCommentReaction {
     private Comment comment;
 
     @Enumerated(EnumType.STRING)
+    @JoinColumn(nullable = false)
     private Reaction reaction;
 }

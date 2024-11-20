@@ -5,6 +5,7 @@ const API_SERVER_HOST = 'http://localhost:8080';
 
 const postPrefix = `${API_SERVER_HOST}/api/post`;
 const commentPrefix = `${API_SERVER_HOST}/api/comment`;
+const postReactionPrefix = `${API_SERVER_HOST}/api/reaction/post`;
 
 export const postListGet = async (requestParam) => {
   const res = await axios.get(`${postPrefix}/list`, { params: requestParam });
@@ -56,4 +57,24 @@ export const commentPut = async (commentId, content) => {
 
 export const commentDelete = async (commentId) => {
   return await jwtAxios.delete(`${commentPrefix}/${commentId}`);
+};
+
+export const reactionGet = async (postId) => {
+  return await jwtAxios.get(`${postReactionPrefix}/${postId}`);
+};
+
+export const likePost = async (postId) => {
+  return await jwtAxios.post(`${postReactionPrefix}/like/${postId}`);
+};
+
+export const dislikePost = async (postId) => {
+  return await jwtAxios.post(`${postReactionPrefix}/dislike/${postId}`);
+};
+
+export const nonePost = async (postId) => {
+  return await jwtAxios.post(`${postReactionPrefix}/none/${postId}`);
+};
+
+export const reactionCountGet = async (postId) => {
+  return await axios.get(`${postPrefix}/reaction/${postId}`);
 };

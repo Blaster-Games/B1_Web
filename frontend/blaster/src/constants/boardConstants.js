@@ -12,3 +12,9 @@ export const SORT = {
   VIEW_COUNT: 'viewCount',
   LIKE_COUNT: 'likeCount',
 };
+
+export const REACTION = {
+  LIKE: 'LIKE',
+  DISLIKE: 'DISLIKE',
+  NONE: 'NONE',
+};
