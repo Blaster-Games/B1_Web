@@ -20,7 +20,7 @@ public class WeaponCountPerMatch {
 
     @ManyToOne
     @JoinColumn(name = "match_id", nullable = false)
-    private Match match;
+    private GameMatch match;
 
     @ManyToOne
     @JoinColumn(name = "weapon_id", nullable = false)

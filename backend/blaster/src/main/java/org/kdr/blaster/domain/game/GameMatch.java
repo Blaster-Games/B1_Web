@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @ToString(exclude = {"buffCountPerMatch", "throwableCountPerMatch", "weaponCountPerMatch"})
 @Table
-public class Match {
+public class GameMatch {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

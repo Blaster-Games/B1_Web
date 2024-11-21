@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(exclude = {"matches"})
+@ToString(exclude = {"gameMatches"})
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name", "mod"}))
 public class GameMap {
 
@@ -23,9 +23,9 @@ public class GameMap {
     private String name;
 
     @Column(nullable = false)
-    private String mod;
+    private String gameMod;
 
-    @OneToMany(mappedBy = "map", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "gameMap", fetch = FetchType.LAZY)
     @Builder.Default
-    private List<Match> matches = new ArrayList<>();
+    private List<GameMatch> gameMatches = new ArrayList<>();
 }

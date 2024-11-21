@@ -20,7 +20,7 @@ public class BuffCountPerMatch {
 
     @ManyToOne
     @JoinColumn(name = "match_id", nullable = false)
-    private Match match;
+    private GameMatch match;
 
     @ManyToOne
     @JoinColumn(name = "buff_id", nullable = false)

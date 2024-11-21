@@ -20,7 +20,7 @@ public class ThrowableCountPerMatch {
 
     @ManyToOne
     @JoinColumn(name = "match_id", nullable = false)
-    private Match match;
+    private GameMatch match;
 
     @ManyToOne
     @JoinColumn(name = "throwable_id", nullable = false)

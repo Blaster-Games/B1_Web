@@ -4,10 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.kdr.blaster.domain.game.*;
-import org.kdr.blaster.dto.game.BuffInfoDTO;
-import org.kdr.blaster.dto.game.MatchResultDTO;
-import org.kdr.blaster.dto.game.ThrowableInfoDTO;
-import org.kdr.blaster.dto.game.WeaponInfoDTO;
+import org.kdr.blaster.dto.game.*;
 import org.kdr.blaster.repository.game.*;
 import org.springframework.stereotype.Service;
 
@@ -30,18 +27,22 @@ public class GameService {
     private final WeaponCountPerMatchRepository weaponCountPerMatchRepository;
 
 
+    public Object testGet(StatisticsRequestDTO statisticsRequestDTO) {
+        return mapRepository.calculateBuff(statisticsRequestDTO);
+    }
+
     public Object saveMatchSummary(MatchResultDTO matchResultDTO) {
         GameMap gameMap = getMap(matchResultDTO);
 
-        Match matchTemp = Match.builder()
+        GameMatch matchTemp = GameMatch.builder()
                 .gameMap(gameMap)
                 .build();
-        Match match = matchRepository.save(matchTemp);
+        GameMatch gameMatch = matchRepository.save(matchTemp);
 
         for (BuffInfoDTO buffPurchase : matchResultDTO.getBuffPurchases()) {
             BuffCountPerMatch buffCountPerMatchTemp = BuffCountPerMatch.builder()
                     .count(buffPurchase.getPurchaseCount())
-                    .match(match)
+                    .match(gameMatch)
                     .buff(getBuff(buffPurchase.getBuffType()))
                     .build();
             buffCountPerMatchRepository.save(buffCountPerMatchTemp);
@@ -50,16 +51,16 @@ public class GameService {
         for (ThrowableInfoDTO throwablePurchase : matchResultDTO.getThrowablePurchases()) {
             ThrowableCountPerMatch throwableCountPerMatchTemp = ThrowableCountPerMatch.builder()
                     .count(throwablePurchase.getPurchaseCount())
-                    .match(match)
+                    .match(gameMatch)
                     .throwableObject(getThrowableObject(throwablePurchase.getThrowType()))
                     .build();
             throwableCountPerMatchRepository.save(throwableCountPerMatchTemp);
         }
 
-        for (WeaponInfoDTO weaponInfoDTO : matchResultDTO.getWeaponType()) {
+        for (WeaponInfoDTO weaponInfoDTO : matchResultDTO.getWeaponPurchases()) {
             WeaponCountPerMatch weaponCountPerMatchTemp = WeaponCountPerMatch.builder()
                     .count(weaponInfoDTO.getPurchaseCount())
-                    .match(match)
+                    .match(gameMatch)
                     .weapon(getWeapon(weaponInfoDTO.getWeaponType()))
                     .build();
             weaponCountPerMatchRepository.save(weaponCountPerMatchTemp);
@@ -75,7 +76,7 @@ public class GameService {
         if (optionalMap.isEmpty()) {
             GameMap gameMapTemp = GameMap.builder()
                     .name(matchResultDTO.getMapName())
-                    .mod(matchResultDTO.getGameMode())
+                    .gameMod(matchResultDTO.getGameMode())
                     .build();
             gameMap = mapRepository.save(gameMapTemp);
         } else {

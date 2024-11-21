@@ -10,5 +10,5 @@ public class MatchResultDTO {
     private String gameMode;
     private List<BuffInfoDTO> buffPurchases;
     private List<ThrowableInfoDTO> throwablePurchases;
-    private List<WeaponInfoDTO> weaponType;
+    private List<WeaponInfoDTO> weaponPurchases;
 }

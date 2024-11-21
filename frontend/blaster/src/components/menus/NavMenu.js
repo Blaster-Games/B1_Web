@@ -11,7 +11,11 @@ function NavMenu() {
               to="/"
               className="text-white hover:text-blue-400 text-lg transition duration-300"
             >
-              🏠홈
+              <img
+                src="/1.svg"
+                alt="Home Icon"
+                style={{ width: '30px', height: '30px' }} // 원하는 크기로 조정
+              />
             </Link>
           </li>
           <li>

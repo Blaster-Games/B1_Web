@@ -75,7 +75,7 @@ function SideMenu() {
           <h2 className="text-blue-200 font-bold mb-4">통계</h2>
           <li className="mb-4">
             <NavLink
-              to="/weapon-stats"
+              to="/game-stats"
               className={({ isActive }) =>
                 isActive
                   ? 'text-yellow-500 font-bold'

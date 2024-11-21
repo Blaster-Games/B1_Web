@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(exclude = {"posts", "comments", "memberPostReaction", "memberCommentReactions", "gamePlayRecords"})
+@ToString(exclude = {"posts", "comments", "memberPostReactions", "memberCommentReactions", "gamePlayRecords"})
 public class Member {
 
     @Id

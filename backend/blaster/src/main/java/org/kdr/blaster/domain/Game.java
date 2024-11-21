@@ -1,4 +1,4 @@
-package org.kdr.blaster.domain.game;
+package org.kdr.blaster.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
