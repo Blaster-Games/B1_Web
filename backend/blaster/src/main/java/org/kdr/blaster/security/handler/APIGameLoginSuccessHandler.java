@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 import org.kdr.blaster.domain.member.Member;
 import org.kdr.blaster.dto.member.MemberDTO;
+import org.kdr.blaster.exception.MemberNotFoundException;
 import org.kdr.blaster.repository.MemberRepository;
 import org.kdr.blaster.util.AuthenticationUtil;
 import org.kdr.blaster.util.JWTUtil;
@@ -50,8 +51,8 @@ public class APIGameLoginSuccessHandler implements AuthenticationSuccessHandler 
         printWriter.println(jsonStr);
         printWriter.close();
 
-        Member member = memberRepository.findByEmail(memberDTO.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + memberDTO.getEmail()));
+        Member member = memberRepository.findById(memberDTO.getId())
+                .orElseThrow(() -> new MemberNotFoundException("사용자를 찾을 수 없습니다: " + memberDTO.getEmail()));
 
         member.onLogin();
         memberRepository.save(member);

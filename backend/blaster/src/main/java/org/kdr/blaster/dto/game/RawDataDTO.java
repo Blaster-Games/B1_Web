@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
-public class StatisticsResultDTO {
+public class RawDataDTO {
     private String name;
     private LocalDate playedAt;
     private int count;

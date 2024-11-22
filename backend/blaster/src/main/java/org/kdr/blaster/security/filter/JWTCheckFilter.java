@@ -47,6 +47,14 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             return true;
         }
 
+        if (path.startsWith("/api/game") && "GET".equalsIgnoreCase(method)) {
+            return true;
+        }
+
+        if (path.startsWith("/api/game/stats")) {
+            return true;
+        }
+
         return false;
     }
 

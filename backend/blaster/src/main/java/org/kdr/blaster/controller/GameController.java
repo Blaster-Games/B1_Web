@@ -21,8 +21,14 @@ public class GameController {
         return ResponseEntity.ok(gameService.saveMatchSummary(matchResultDTO));
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<?> testGet(@RequestBody StatisticsRequestDTO statisticsRequestDTO) {
-        return ResponseEntity.ok(gameService.testGet(statisticsRequestDTO));
+    @PostMapping("/stats")
+    public ResponseEntity<?> getStats(@RequestBody StatisticsRequestDTO statisticsRequestDTO) {
+        log.info(statisticsRequestDTO);
+        return ResponseEntity.ok(gameService.getStats(statisticsRequestDTO));
+    }
+
+    @GetMapping("/maps")
+    public ResponseEntity<?> getMaps() {
+        return ResponseEntity.ok(gameService.getMaps());
     }
 }

@@ -2,10 +2,12 @@ package org.kdr.blaster.dto.game;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
 @Getter
+@ToString
 public class StatisticsRequestDTO {
     private String mapName;
 

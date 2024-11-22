@@ -9,6 +9,7 @@ import org.kdr.blaster.domain.member.UserRole;
 import org.kdr.blaster.dto.game.GamePlayRecordDTO;
 import org.kdr.blaster.dto.member.*;
 import org.kdr.blaster.exception.DuplicateNicknameException;
+import org.kdr.blaster.repository.GamePlayRecordRepository;
 import org.kdr.blaster.repository.MemberRepository;
 import org.kdr.blaster.util.AuthenticationUtil;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final GamePlayRecordRepository gamePlayRecordRepository;
     private final PasswordEncoder passwordEncoder;
 
     public Member getAuthenticatedMember() {
@@ -41,11 +43,13 @@ public class MemberService {
         before.onLogout();
         Member after = memberRepository.save(before);
         Duration duration = Duration.between(after.getLastGameLoginAt(), after.getLastGameLogoutAt());
-        GamePlayRecord record = GamePlayRecord.builder()
+        GamePlayRecord recordTemp = GamePlayRecord.builder()
                 .loginTime(after.getLastGameLoginAt())
                 .logoutTime(after.getLastGameLogoutAt())
                 .duration(duration.toMinutes())
+                .member(after)
                 .build();
+        GamePlayRecord record = gamePlayRecordRepository.save(recordTemp);
         return GamePlayRecordDTO.entityToDTO(record);
     }
 
