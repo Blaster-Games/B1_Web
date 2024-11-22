@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import { getStatsPost, mapListGet } from '../../api/statsApi';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,8 +13,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { getStatsPost, mapListGet } from '../../api/statsApi';
-import { SORT } from '../../constants/boardConstants';
+import { format, subDays } from 'date-fns';
 
 ChartJS.register(
   CategoryScale,
@@ -40,6 +42,11 @@ const options = (text) => {
     plugins: {
       legend: {
         position: 'bottom', // 범례
+        labels: {
+          boxHeight: 12, // 범례 박스 높이
+          boxWidth: 20, // 범례 박스 너비
+          padding: 20, // 범례 항목 간 간격
+        },
       },
       title: {
         display: true,
@@ -47,6 +54,7 @@ const options = (text) => {
         font: {
           size: 30, // 제목 글자 크기
         },
+        color: '#ddddff',
       },
       tooltip: {
         backgroundColor: 'rgba(0,0,0,0.7)', // 툴팁 배경 색상
@@ -78,6 +86,8 @@ function getDay(n) {
 
 function ChartComponent() {
   const [mapList, setMapList] = useState([]);
+  const [startDate, setStartDate] = useState(initialRequest.startDate);
+  const [endDate, setEndDate] = useState(initialRequest.endDate);
   const [request, setRequest] = useState(initialRequest);
   const [chartData, setChartData] = useState(initialData);
   const [responseData, setResponseData] = useState(null);
@@ -92,11 +102,18 @@ function ChartComponent() {
   useEffect(() => {
     mapListGet()
       .then((res) => {
-        console.log(res);
         setMapList(res);
       })
       .catch(console.error);
   }, []);
+
+  useEffect(() => {
+    setRequest({
+      ...request,
+      startDate,
+      endDate,
+    });
+  }, [startDate, endDate]);
 
   useEffect(() => {
     getStatsPost(request).then((res) => {
@@ -129,48 +146,68 @@ function ChartComponent() {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col">
       <Line data={chartData} options={options('맵 별 통계')} />
-      <div className="flex gap-4 mt-10">
-        <select
-          onClick={handleChangeMap}
-          ref={mapRef}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 ml-4"
-        >
-          {mapList ? (
-            mapList.map((map) => (
-              <option key={map} value={map}>
-                {map}
-              </option>
-            ))
-          ) : (
-            <option>로딩 중</option>
-          )}
-        </select>
-        <button
-          className={`px-4 py-2 rounded-lg text-sm font-bold ${
-            visibleDatasets.buff ? 'bg-blue-900' : 'bg-gray-600'
-          } hover:opacity-80`}
-          onClick={() => toggleDataset('buff')}
-        >
-          Buff
-        </button>
-        <button
-          className={`px-4 py-2 rounded-lg text-sm font-bold ${
-            visibleDatasets.throwable ? 'bg-indigo-900' : 'bg-gray-600'
-          } hover:opacity-80`}
-          onClick={() => toggleDataset('throwable')}
-        >
-          Throwable
-        </button>
-        <button
-          className={`px-4 py-2 rounded-lg text-sm font-bold ${
-            visibleDatasets.weapon ? 'bg-pink-900' : 'bg-gray-600'
-          } hover:opacity-80`}
-          onClick={() => toggleDataset('weapon')}
-        >
-          Weapon
-        </button>
+      <div className="flex justify-between items-center mt-10">
+        <div className="flex gap-4">
+          <DatePicker
+            className="bg-gray-800 rounded-lg text-center text-gray-300 py-1"
+            selected={startDate} // 선택된 날짜
+            onChange={(date) => setStartDate(format(date, 'yyyy-MM-dd'))} // 날짜 변경 시 업데이트
+            // minDate={subDays(endDate, 30)}
+            maxDate={endDate}
+            dateFormat="yyyy-MM-dd" // 날짜 형식 지정
+          />
+          <DatePicker
+            className="bg-gray-800 rounded-lg text-center text-gray-300 py-1"
+            selected={endDate} // 선택된 날짜
+            onChange={(date) => setEndDate(format(date, 'yyyy-MM-dd'))} // 날짜 변경 시 업데이트
+            minDate={startDate}
+            maxDate={new Date()}
+            dateFormat="yyyy-MM-dd" // 날짜 형식 지정
+          />
+          <select
+            onClick={handleChangeMap}
+            ref={mapRef}
+            className="bg-gray-800 text-gray-300 text-center px-12 py-1 rounded-lg hover:bg-blue-600 mr-6"
+          >
+            {mapList ? (
+              mapList.map((map) => (
+                <option key={map} value={map}>
+                  {map}
+                </option>
+              ))
+            ) : (
+              <option>로딩 중</option>
+            )}
+          </select>
+        </div>
+        <div className="flex gap-4">
+          <button
+            className={`px-4 py-2 rounded-lg text-sm font-bold ${
+              visibleDatasets.buff ? 'bg-blue-900' : 'bg-gray-600'
+            } hover:opacity-80`}
+            onClick={() => toggleDataset('buff')}
+          >
+            버프
+          </button>
+          <button
+            className={`px-4 py-2 rounded-lg text-sm font-bold ${
+              visibleDatasets.throwable ? 'bg-indigo-900' : 'bg-gray-600'
+            } hover:opacity-80`}
+            onClick={() => toggleDataset('throwable')}
+          >
+            투척
+          </button>
+          <button
+            className={`px-4 py-2 rounded-lg text-sm font-bold ${
+              visibleDatasets.weapon ? 'bg-pink-900' : 'bg-gray-600'
+            } hover:opacity-80`}
+            onClick={() => toggleDataset('weapon')}
+          >
+            무기
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -82,7 +82,7 @@ function SideMenu() {
                   : 'hover:text-blue-400 transition duration-300'
               }
             >
-              맵 별 무기 통계
+              맵 별 통계
             </NavLink>
           </li>
           <hr className="border-gray-500 mb-4" />
