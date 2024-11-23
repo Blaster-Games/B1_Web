@@ -1,6 +1,6 @@
 import React from 'react';
 
-function MainComponent() {
+function GameMainComponent() {
   return (
     <div className="flex-1 flex flex-col bg-gray-800 text-gray-100 rounded-lg shadow-lg p-4">
       <main className="p-8 flex flex-col items-center bg-gray-700 rounded-lg shadow-lg">
@@ -35,4 +35,4 @@ function MainComponent() {
   );
 }
 
-export default MainComponent;
+export default GameMainComponent;

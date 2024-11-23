@@ -75,13 +75,13 @@ const options = (text) => {
 };
 
 function getDay(n) {
-  const today = new Date();
-  today.setDate(today.getDate() - n);
-  const yyyy = today.getFullYear(); // 연도
-  const mm = String(today.getMonth() + 1).padStart(2, '0'); // 월 (0부터 시작하므로 +1 필요)
-  const dd = String(today.getDate()).padStart(2, '0'); // 일
+  const day = new Date();
+  day.setDate(day.getDate() - n);
+  // const yyyy = today.getFullYear(); // 연도
+  // const mm = String(today.getMonth() + 1).padStart(2, '0'); // 월 (0부터 시작하므로 +1 필요)
+  // const dd = String(today.getDate()).padStart(2, '0'); // 일
 
-  return `${yyyy}-${mm}-${dd}`;
+  return format(day, 'yyyy-MM-dd');
 }
 
 function ChartComponent() {

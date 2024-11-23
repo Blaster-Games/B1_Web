@@ -60,7 +60,7 @@ export const commentDelete = async (commentId) => {
 };
 
 export const reactionGet = async (postId) => {
-  return await jwtAxios.get(`${postReactionPrefix}/${postId}`);
+  return await axios.get(`${postReactionPrefix}/${postId}`);
 };
 
 export const likePost = async (postId) => {

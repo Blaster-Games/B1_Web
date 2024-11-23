@@ -6,14 +6,14 @@ import boardRouter from './boardRouter';
 import gameStatRouter from './gameStatRouter';
 
 const Loading = <div>Loading...</div>;
-const Main = lazy(() => import('../pages/MainPage'));
+const GameMain = lazy(() => import('../pages/GameMainPage'));
 
 const root = createBrowserRouter([
   {
     path: '',
     element: (
       <Suspense fallback={Loading}>
-        <Main />
+        <GameMain />
       </Suspense>
     ),
   },

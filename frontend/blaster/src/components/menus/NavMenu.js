@@ -20,10 +20,10 @@ function NavMenu() {
           </li>
           <li>
             <Link
-              to="/$1"
+              to="/"
               className="text-white hover:text-blue-400 transition duration-300"
             >
-              게임 1
+              Blaster
             </Link>
           </li>
           <li>

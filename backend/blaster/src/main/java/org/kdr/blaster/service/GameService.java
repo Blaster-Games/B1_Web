@@ -71,32 +71,34 @@ public class GameService {
 
         StatisticsResponseDTO statisticsResponseDTO = StatisticsResponseDTO.builder().labels(labels).build();
         for (String s : dataSetBuff.keySet()) {
-
+            List<String> rgb = generateRGB();
             StatsDTO statsDTO = StatsDTO.builder()
                     .label(s)
                     .data(dataSetBuff.get(s))
-                    .borderColor(generateRGB())
-                    .backgroundColor(generateRGB())
+                    .borderColor(rgb.get(1))
+                    .backgroundColor(rgb.get(0))
                     .build();
             statisticsResponseDTO.getBuff().add(statsDTO);
         }
 
         for (String s : dataSetThrowable.keySet()) {
+            List<String> rgb = generateRGB();
             StatsDTO statsDTO = StatsDTO.builder()
                     .label(s)
                     .data(dataSetThrowable.get(s))
-                    .borderColor(generateRGB())
-                    .backgroundColor(generateRGB())
+                    .borderColor(rgb.get(1))
+                    .backgroundColor(rgb.get(0))
                     .build();
             statisticsResponseDTO.getThrowable().add(statsDTO);
         }
 
         for (String s : dataSetWeapon.keySet()) {
+            List<String> rgb = generateRGB();
             StatsDTO statsDTO = StatsDTO.builder()
                     .label(s)
                     .data(dataSetWeapon.get(s))
-                    .borderColor(generateRGB())
-                    .backgroundColor(generateRGB())
+                    .borderColor(rgb.get(1))
+                    .backgroundColor(rgb.get(0))
                     .build();
             statisticsResponseDTO.getWeapon().add(statsDTO);
         }
@@ -104,14 +106,16 @@ public class GameService {
         return statisticsResponseDTO;
     }
 
-    private String generateRGB() {
+    private List<String> generateRGB() {
         Random random = new Random();
-        return MessageFormat.format(
-                "rgba({0}, {1}, {2}, {3})",
-                random.nextInt(255),
-                random.nextInt(255),
-                random.nextInt(255),
-                random.nextDouble() * 0.5 + 0.5);
+        int r = random.nextInt(200);
+        int g = random.nextInt(200);
+        int b = random.nextInt(200);
+        double a = random.nextDouble() * 0.5 + 0.5;
+        return List.of(
+                MessageFormat.format("rgba({0}, {1}, {2}, {3})", r, g, b, a),
+                MessageFormat.format("rgba({0}, {1}, {2}, {3})", r + 55, g + 55, b + 55, a + 0.25)
+        );
     }
 
     /* saveMatchSummary */
