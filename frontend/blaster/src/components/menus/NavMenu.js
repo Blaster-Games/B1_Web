@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { gameInfo } from '../../gameInfo';
 
 function NavMenu() {
   return (
@@ -18,30 +19,17 @@ function NavMenu() {
               />
             </Link>
           </li>
-          <li>
-            <Link
-              to="/"
-              className="text-white hover:text-blue-400 transition duration-300"
-            >
-              Blaster
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/$1"
-              className="text-white hover:text-blue-400 transition duration-300"
-            >
-              게임 2
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/$1"
-              className="text-white hover:text-blue-400 transition duration-300"
-            >
-              게임 3
-            </Link>
-          </li>
+          {gameInfo.map((gameInfo) => (
+            // eslint-disable-next-line react/jsx-key
+            <li>
+              <Link
+                to={gameInfo.path ? gameInfo.path : `/${gameInfo.pathVariable}`}
+                className="text-white hover:text-blue-400 transition duration-300"
+              >
+                {gameInfo.name}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>

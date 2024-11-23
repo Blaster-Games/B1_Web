@@ -1,6 +1,6 @@
 import { loginPostAsync, logout } from '../slices/loginSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const useCustomLogin = () => {
   const dispatch = useDispatch();
@@ -11,7 +11,9 @@ const useCustomLogin = () => {
 
   const location = useLocation();
 
-  const from = location.state?.from || { pathname: '/' };
+  const { game } = useParams();
+
+  const from = location.state?.from || { pathname: `/${game}` };
 
   const isLogin = loginState.email ? true : false;
 
@@ -27,7 +29,7 @@ const useCustomLogin = () => {
   };
 
   const redirectToLogin = () => {
-    navigate('/member/login', {
+    navigate(`/${game}/member/login`, {
       state: {
         from: {
           pathname: location.pathname,
@@ -56,6 +58,8 @@ const useCustomLogin = () => {
     moveToPath,
     redirectToLogin,
     moveToFrom,
+    location,
+    game,
   };
 };
 

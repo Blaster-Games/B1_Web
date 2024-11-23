@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Modal from '../common/Modal';
 import { passwordChangePut } from '../../api/memberApi';
+import useCustomLogin from '../../hooks/useCustomLogin';
 
 const initModalData = {
   title: '',
@@ -21,6 +22,7 @@ function ChangePasswordComponent() {
   const [modalData, setModalData] = useState(initModalData);
 
   const navigate = useNavigate();
+  const { moveToFrom } = useCustomLogin();
 
   useEffect(() => {
     oldPasswordRef.current?.focus();
@@ -75,7 +77,7 @@ function ChangePasswordComponent() {
           content: '비밀번호가 변경되었습니다.',
           onClose: () => {
             setIsOpen(false);
-            navigate('/member/profile');
+            moveToFrom();
           },
         });
       })

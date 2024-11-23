@@ -52,6 +52,16 @@ const useEditor = () => {
     const doc = parser.parseFromString(content, 'text/html');
     const images = Array.from(doc.querySelectorAll('img'));
 
+    if (!images.length) {
+      postPost(category, title, doc.body.innerHTML)
+        .then((res) => {
+          console.log(res);
+          moveToList();
+        })
+        .catch(console.error);
+      return;
+    }
+
     const formData = new FormData();
     const base64Images = [];
 

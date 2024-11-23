@@ -16,7 +16,7 @@ const initModalData = {
 };
 
 function ProfileComponent() {
-  const { loginState } = useCustomLogin();
+  const { loginState, location, game } = useCustomLogin();
 
   const nicknameRef = useRef(null);
 
@@ -138,7 +138,13 @@ function ProfileComponent() {
       </div>
       <div className="flex justify-center mb-6">
         <Link
-          to={'/member/change-password'}
+          to={`/${game}/member/change-password`}
+          state={{
+            from: {
+              pathname: location.pathname,
+              search: location.search,
+            },
+          }}
           className="bg-blue-500 text-white px-4 py-2 rounded mr-1"
         >
           비밀번호 변경

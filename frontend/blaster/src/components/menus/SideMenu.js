@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import useCustomLogin from '../../hooks/useCustomLogin';
 
 function SideMenu() {
@@ -9,10 +9,12 @@ function SideMenu() {
     doLogout();
   };
 
+  const { game } = useParams();
+
   return (
     <aside className="w-64 bg-gray-700 text-gray-100 p-5 rounded-lg shadow-lg">
       <div className="mb-6">
-        <h1 className="text-lg font-bold">우리 게임</h1>
+        <h1 className="text-lg font-bold">{game.toUpperCase()}</h1>
       </div>
       <nav>
         <ul>
@@ -23,7 +25,7 @@ function SideMenu() {
               </h2>
               <li className="mb-4">
                 <NavLink
-                  to="/member/profile"
+                  to={`/${game}/member/profile`}
                   className={({ isActive }) =>
                     isActive
                       ? 'text-yellow-500 font-bold'
@@ -35,7 +37,7 @@ function SideMenu() {
               </li>
               <li className="mb-4">
                 <NavLink
-                  to="/"
+                  to={`/${game}`}
                   className="hover:text-blue-400 transition duration-300"
                   onClick={logoutHandler}
                 >
@@ -47,7 +49,7 @@ function SideMenu() {
             <>
               <li className="mb-4">
                 <NavLink
-                  to="/member/login"
+                  to={`/${game}/member/login`}
                   className={({ isActive }) =>
                     isActive
                       ? 'text-yellow-500 font-bold'
@@ -59,7 +61,7 @@ function SideMenu() {
               </li>
               <li className="mb-4">
                 <NavLink
-                  to="/member/signup"
+                  to={`/${game}/member/signup`}
                   className={({ isActive }) =>
                     isActive
                       ? 'text-yellow-500 font-bold'
@@ -75,7 +77,7 @@ function SideMenu() {
           <h2 className="text-blue-200 font-bold mb-4">통계</h2>
           <li className="mb-4">
             <NavLink
-              to="/game-stats"
+              to={`/${game}/game-stats`}
               className={({ isActive }) =>
                 isActive
                   ? 'text-yellow-500 font-bold'
@@ -89,7 +91,7 @@ function SideMenu() {
           <h2 className="text-blue-200 font-bold mb-4">커뮤니티</h2>
           <li className="mb-4">
             <NavLink
-              to="/board/notice?page=1&size=10&sort=createdAt"
+              to={`/${game}/board/notice?page=1&size=10&sort=createdAt`}
               className={({ isActive }) =>
                 isActive
                   ? 'text-yellow-500 font-bold'
@@ -101,7 +103,7 @@ function SideMenu() {
           </li>
           <li>
             <NavLink
-              to="/board/general?page=1&size=10&sort=createdAt"
+              to={`/${game}/board/general?page=1&size=10&sort=createdAt`}
               className={({ isActive }) =>
                 isActive
                   ? 'text-yellow-500 font-bold'
