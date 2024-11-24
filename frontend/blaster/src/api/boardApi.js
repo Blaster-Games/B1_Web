@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jwtAxios from '../util/jwtUtil';
 
-const API_SERVER_HOST = 'http://localhost:8080';
+const API_SERVER_HOST = 'https://native-pika-possibly.ngrok-free.app';
 
 const postPrefix = `${API_SERVER_HOST}/api/post`;
 const commentPrefix = `${API_SERVER_HOST}/api/comment`;
