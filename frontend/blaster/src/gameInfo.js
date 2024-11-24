@@ -3,6 +3,8 @@ export const gameInfo = [
     name: 'Blaster',
     pathVariable: 'blaster',
     description: '곽동렬 슈팅 게임',
+    imagePath: '/blaster1.png',
+    images: ['/blaster1.png', '/blaster2.png'],
   },
   {
     name: 'Poe',
@@ -15,21 +17,21 @@ export const gameInfo = [
   {
     name: 'Game3',
     pathVariable: 'game3',
-    description: 'Game3 배너 설명',
+    description: 'Game3 배너',
   },
   {
     name: 'Game4',
     pathVariable: 'game4',
-    description: 'Game4 배너 설명',
+    description: 'Game4 배너',
   },
   {
     name: 'Game5',
     pathVariable: 'game5',
-    description: 'Game5 배너 설명',
+    description: 'Game5 배너',
   },
   {
     name: 'Game6',
     pathVariable: 'game6',
-    description: 'Game6 배너 설명',
+    description: 'Game6 배너',
   },
 ];

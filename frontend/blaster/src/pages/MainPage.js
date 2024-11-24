@@ -41,7 +41,7 @@ const GamePlatformMainPage = () => {
         >
           <div className="flex flex-col justify-center">
             <img
-              src="https://via.placeholder.com/1200x600"
+              src="/blaster3.png"
               alt="Banner 1"
               className="rounded-lg h-96 object-cover mx-auto"
             />
@@ -57,7 +57,7 @@ const GamePlatformMainPage = () => {
           </div>
           <div className="flex flex-col justify-center">
             <img
-              src="https://t1.daumcdn.net/gamewiki/poe/1.%20%EA%B3%B5%ED%99%88TopBanner_PC_920x270v2.jpg"
+              src="/blaster1.png"
               alt="Banner 3"
               className="rounded-lg h-96 object-cover mx-auto"
             />
