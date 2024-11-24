@@ -79,18 +79,34 @@ function BoardComponent({ name, pageInfo }) {
       </div>
       <div className="overflow-y-auto scrollbar">
         {/* 게시글 목록 */}
-        {pageInfo.itemList.map((item) => (
-          <PostListItem
-            id={item.id}
-            title={item.title}
-            content={item.content}
-            author={item.memberName}
-            createdAt={item.createdAt}
-            likes={item.likeCount}
-            commentCount={item.commentCount}
-            viewCount={item.viewCount}
-          />
-        ))}
+        {pageInfo.itemList ? (
+          pageInfo.itemList.map((item) => (
+            <PostListItem
+              id={item.id}
+              title={item.title}
+              content={item.content}
+              author={item.memberName}
+              createdAt={item.createdAt}
+              likes={item.likeCount}
+              commentCount={item.commentCount}
+              viewCount={item.viewCount}
+            />
+          ))
+        ) : (
+          <></>
+        )}
+        {/*{pageInfo.itemList.map((item) => (*/}
+        {/*  <PostListItem*/}
+        {/*    id={item.id}*/}
+        {/*    title={item.title}*/}
+        {/*    content={item.content}*/}
+        {/*    author={item.memberName}*/}
+        {/*    createdAt={item.createdAt}*/}
+        {/*    likes={item.likeCount}*/}
+        {/*    commentCount={item.commentCount}*/}
+        {/*    viewCount={item.viewCount}*/}
+        {/*  />*/}
+        {/*))}*/}
       </div>
     </div>
   );
