@@ -1,16 +1,25 @@
 import React, { lazy, Suspense } from 'react';
 
 const Loading = <div>Loading...</div>;
-const GameStats = lazy(() => import('../pages/statistics/GameStatPage'));
+const MapStats = lazy(() => import('../pages/statistics/GameMapStatPage'));
+const VisitorStats = lazy(() => import('../pages/statistics/GameVisitorStatPage'));
 const MyGameStats = lazy(() => import('../pages/statistics/MyGameStatPage'));
 
 function gameStatRouter() {
   return [
     {
-      path: 'game',
+      path: 'map',
       element: (
         <Suspense fallback={Loading}>
-          <GameStats />
+          <MapStats />
+        </Suspense>
+      ),
+    },
+    {
+      path: 'visitor',
+      element: (
+        <Suspense fallback={Loading}>
+          <VisitorStats />
         </Suspense>
       ),
     },

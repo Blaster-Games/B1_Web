@@ -96,18 +96,6 @@ function BoardComponent({ name, pageInfo }) {
         ) : (
           <></>
         )}
-        {/*{pageInfo.itemList.map((item) => (*/}
-        {/*  <PostListItem*/}
-        {/*    id={item.id}*/}
-        {/*    title={item.title}*/}
-        {/*    content={item.content}*/}
-        {/*    author={item.memberName}*/}
-        {/*    createdAt={item.createdAt}*/}
-        {/*    likes={item.likeCount}*/}
-        {/*    commentCount={item.commentCount}*/}
-        {/*    viewCount={item.viewCount}*/}
-        {/*  />*/}
-        {/*))}*/}
       </div>
     </div>
   );

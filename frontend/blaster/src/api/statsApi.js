@@ -18,6 +18,11 @@ export const getStatsPost = async (statsParam) => {
 
 export const myStatsGet = async (params) => {
   const res = await jwtAxios.get(`${prefix}/play-time`, { params });
+  return res.data;
+};
+
+export const visitorStatsGet = async (params) => {
+  const res = await axios.get(`${prefix}/visitors`, { params });
   console.log(res.data);
   return res.data;
 };

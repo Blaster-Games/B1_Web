@@ -93,7 +93,19 @@ function SideMenu() {
           )}
           <li className="mb-4">
             <NavLink
-              to={`/${game}/stats/game`}
+              to={`/${game}/stats/visitor`}
+              className={({ isActive }) =>
+                isActive
+                  ? 'text-yellow-500 font-bold'
+                  : 'hover:text-blue-400 transition duration-300'
+              }
+            >
+              게임 접속자 통계
+            </NavLink>
+          </li>
+          <li className="mb-4">
+            <NavLink
+              to={`/${game}/stats/map`}
               className={({ isActive }) =>
                 isActive
                   ? 'text-yellow-500 font-bold'

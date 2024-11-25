@@ -84,7 +84,7 @@ function getDay(n) {
   return format(day, 'yyyy-MM-dd');
 }
 
-function GameStatComponent({ chartName }) {
+function GameMapStatComponent({ chartName }) {
   const [mapList, setMapList] = useState([]);
   const [map, setMap] = useState(initialRequest.mapName);
   const [startDate, setStartDate] = useState(initialRequest.startDate);
@@ -218,4 +218,4 @@ function GameStatComponent({ chartName }) {
   );
 }
 
-export default GameStatComponent;
+export default GameMapStatComponent;

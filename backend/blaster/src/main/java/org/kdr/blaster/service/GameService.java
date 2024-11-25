@@ -226,7 +226,6 @@ public class GameService {
         List<Object[]> queryResult = gamePlayRecordRepository.findTotalDurationByDate(member.getId(), start, end);
 
         ArrayList<LocalDate> labels = new ArrayList<>();
-//        DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("YYYY-MM-dd");
 
         int days = (int) ChronoUnit.DAYS.between(start, end) + 1;
         int [] data = new int[days];
@@ -242,7 +241,27 @@ public class GameService {
             }
         }
 
-        return Map.of("labels", labels, "data", data);
+        return Map.of("labels", labels, "data", data, "label", "게임 이용 시간 (분)", "y", "분");
     }
 
+    public Object getGameVisitorsByDate(LocalDate start, LocalDate end) {
+        List<Object[]> gameVisitorsByDate = gamePlayRecordRepository.getGameVisitorsByDate(start, end);
+
+        ArrayList<LocalDate> labels = new ArrayList<>();
+
+        int days = (int) ChronoUnit.DAYS.between(start, end) + 1;
+        int [] data = new int[days];
+
+        if (!gameVisitorsByDate.isEmpty()) {
+            int i = 0, j = 0;
+            for (LocalDate d = start; d.isBefore(end.plusDays(1)); d = d.plusDays(1), i++) {
+                labels.add(d);
+                if (j < gameVisitorsByDate.size() && d.equals(((Date) gameVisitorsByDate.get(j)[0]).toLocalDate())) {
+                    data[i] = ((java.math.BigDecimal) (gameVisitorsByDate.get(j)[1])).intValue();
+                    j++;
+                }
+            }
+        }
+        return Map.of("labels", labels, "data", data, "label", "접속자 수(명)", "y", "명");
+    }
 }

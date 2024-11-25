@@ -14,12 +14,14 @@ ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 function DailyBarChartComponent({ info }) {
   const labels = info.labels;
   const data = info.data;
+  const label = info.label;
+  const y = info.y;
 
   const chartData = {
     labels: labels,
     datasets: [
       {
-        label: '게임 이용 시간 (분)',
+        label: label,
         data: data,
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
         borderColor: 'rgba(75, 192, 192, 1)',
@@ -48,7 +50,7 @@ function DailyBarChartComponent({ info }) {
       y: {
         title: {
           display: true,
-          text: '분',
+          text: y,
         },
         beginAtZero: true,
       },

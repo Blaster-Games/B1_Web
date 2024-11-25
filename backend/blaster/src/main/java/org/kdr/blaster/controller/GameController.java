@@ -44,4 +44,14 @@ public class GameController {
             ) {
         return ResponseEntity.ok(gameService.getPlayTime(start, end));
     }
+
+    @GetMapping("/visitors")
+    public ResponseEntity<?> getGameVisitorsByDate(
+            @RequestParam
+            @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate start,
+            @RequestParam
+            @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate end
+    ) {
+        return ResponseEntity.ok(gameService.getGameVisitorsByDate(start, end));
+    }
 }

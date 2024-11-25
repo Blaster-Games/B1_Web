@@ -3,7 +3,6 @@ import DailyBarChartComponent from './DailyBarChartComponent';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format, subDays } from 'date-fns';
-import { myStatsGet } from '../../api/statsApi';
 
 const initialChartData = {
   labels: [
@@ -23,7 +22,7 @@ const initialParams = {
   end: format(subDays(new Date(), 0), 'yyyy-MM-dd'),
 };
 
-function MyGameStatComponent() {
+function GameBarStatComponent({ title, fn }) {
   const [params, setParams] = useState(initialParams);
   const [startDate, setStartDate] = useState(subDays(new Date(), 6));
   const [endDate, setEndDate] = useState(new Date());
@@ -38,7 +37,7 @@ function MyGameStatComponent() {
   }, [startDate, endDate]);
 
   useEffect(() => {
-    myStatsGet(params)
+    fn(params)
       .then((res) => {
         setChartData(res);
       })
@@ -48,7 +47,7 @@ function MyGameStatComponent() {
   return (
     <div className="flex-1 flex flex-col bg-gray-700 text-gray-100 rounded-lg shadow-lg p-8 h-full min-h-[70vh]">
       <h2 className="text-xl font-semibold mb-4 text-center">
-        일별 게임 이용 시간
+        {title}
       </h2>
       <DailyBarChartComponent info={chartData} />
       <div className={'flex gap-5 mt-4'}>
@@ -73,4 +72,4 @@ function MyGameStatComponent() {
   );
 }
 
-export default MyGameStatComponent;
+export default GameBarStatComponent;

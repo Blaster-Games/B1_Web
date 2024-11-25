@@ -52,4 +52,23 @@ public interface GamePlayRecordRepository extends JpaRepository<GamePlayRecord, 
             @Param("endDate") LocalDate endDate
     );
 
+    @Query(value = """
+        SELECT date, SUM(number) AS total_number
+        FROM (
+            SELECT DATE(gpr.login_time) AS date, COUNT(DISTINCT gpr.member_id) AS number
+            FROM game_play_record gpr
+            WHERE DATE(gpr.login_time) BETWEEN :startDate AND :endDate
+            GROUP BY DATE(gpr.login_time)
+            
+            UNION ALL
+            
+            SELECT DATE(gpr.logout_time) AS date, COUNT(DISTINCT gpr.member_id) AS number
+            FROM game_play_record gpr
+            WHERE DATE(gpr.login_time) != DATE(gpr.logout_time) 
+              AND DATE(gpr.logout_time) BETWEEN :startDate AND :endDate
+            GROUP BY DATE(gpr.logout_time)
+        ) AS temp
+        GROUP BY date
+    """, nativeQuery = true)
+    List<Object[]> getGameVisitorsByDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }
