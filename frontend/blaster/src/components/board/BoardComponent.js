@@ -79,9 +79,10 @@ function BoardComponent({ name, pageInfo }) {
       </div>
       <div className="overflow-y-auto scrollbar">
         {/* 게시글 목록 */}
-        {pageInfo.itemList ? (
+        {pageInfo.itemList && Array.isArray(pageInfo.itemList) ? (
           pageInfo.itemList.map((item) => (
             <PostListItem
+              key={item.id}
               id={item.id}
               title={item.title}
               content={item.content}

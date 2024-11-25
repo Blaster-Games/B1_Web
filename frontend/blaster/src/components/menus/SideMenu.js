@@ -75,9 +75,25 @@ function SideMenu() {
           )}
           <hr className="border-gray-500 mb-4" />
           <h2 className="text-blue-200 font-bold mb-4">통계</h2>
+          {isLogin ? (
+            <li className="mb-4">
+              <NavLink
+                to={`/${game}/stats/my`}
+                className={({ isActive }) =>
+                  isActive
+                    ? 'text-yellow-500 font-bold'
+                    : 'hover:text-blue-400 transition duration-300'
+                }
+              >
+                내 통계
+              </NavLink>
+            </li>
+          ) : (
+            <></>
+          )}
           <li className="mb-4">
             <NavLink
-              to={`/${game}/game-stats`}
+              to={`/${game}/stats/game`}
               className={({ isActive }) =>
                 isActive
                   ? 'text-yellow-500 font-bold'

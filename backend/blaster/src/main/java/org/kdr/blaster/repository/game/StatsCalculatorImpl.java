@@ -1,11 +1,18 @@
 package org.kdr.blaster.repository.game;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPQLQuery;
 import org.kdr.blaster.domain.game.*;
+import org.kdr.blaster.domain.member.GamePlayRecord;
+import org.kdr.blaster.domain.member.Member;
+import org.kdr.blaster.domain.member.QGamePlayRecord;
 import org.kdr.blaster.dto.game.StatisticsRequestDTO;
 import org.kdr.blaster.dto.game.RawDataDTO;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 public class StatsCalculatorImpl extends QuerydslRepositorySupport implements StatsCalculator {
@@ -82,4 +89,13 @@ public class StatsCalculatorImpl extends QuerydslRepositorySupport implements St
                 .groupBy(weapon.name, match.playedAt)
                 .fetch();
     }
+
+//    @Override
+//    public List<Tuple> calculatePlayTime(Member member, LocalDate start, LocalDate end) {
+//        QGamePlayRecord gamePlayRecord = QGamePlayRecord.gamePlayRecord;
+//
+//
+//        return from(gamePlayRecord).select(gamePlayRecord.loginTime, gamePlayRecord.logoutTime, gamePlayRecord.duration)
+//                .where(gamePlayRecord.member.eq(member).and(gamePlayRecord.loginTime.between(start.atStartOfDay(), end.atStartOfDay()))).stream().toList();
+//    }
 }

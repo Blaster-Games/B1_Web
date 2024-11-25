@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { GAME, SORT } from '../../constants/boardConstants';
-import useCustomBoard from '../../hooks/useCustomBoard';
 import BasicLayout from '../../layouts/BasicLayout';
 import BoardComponent from '../../components/board/BoardComponent';
 import Pagination from '../../components/board/Pagination';
+import useCustomMove from '../../hooks/useCustomMove';
+import { postListGet } from '../../api/boardApi';
+
+const initialPageInfo = {
+  itemList: [],
+  pageNumList: null,
+  current: 1,
+  size: 10,
+  prevPage: 0,
+  nextPage: 11,
+  totalCount: 100,
+  totalPages: 1,
+  prev: false,
+  next: true,
+};
 
 const initialRequestParam = {
   page: 1,
@@ -14,7 +28,29 @@ const initialRequestParam = {
 };
 
 function BoardPage() {
-  const { pageInfo, category } = useCustomBoard(initialRequestParam);
+  const { page, size, sort, category } = useCustomMove();
+  const [pageInfo, setPageInfo] = useState(initialPageInfo);
+  const [requestParam, setRequestParam] = useState(initialRequestParam);
+
+  useEffect(() => {
+    setRequestParam({
+      ...requestParam,
+      page: page,
+      size: size,
+      category: category.toUpperCase(),
+      sort: sort,
+    });
+  }, [page, size, category, sort]);
+
+  useEffect(() => {
+    if (requestParam.category) {
+      postListGet(requestParam)
+        .then((res) => {
+          setPageInfo(res);
+        })
+        .catch(console.error);
+    }
+  }, [requestParam]);
 
   return (
     <BasicLayout>

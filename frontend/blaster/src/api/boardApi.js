@@ -1,7 +1,8 @@
 import axios from 'axios';
 import jwtAxios from '../util/jwtUtil';
 
-const API_SERVER_HOST = 'https://native-pika-possibly.ngrok-free.app';
+// const API_SERVER_HOST = 'https://native-pika-possibly.ngrok-free.app';
+const API_SERVER_HOST = 'http://localhost:8080';
 
 const postPrefix = `${API_SERVER_HOST}/api/post`;
 const commentPrefix = `${API_SERVER_HOST}/api/comment`;
@@ -60,7 +61,7 @@ export const commentDelete = async (commentId) => {
 };
 
 export const reactionGet = async (postId) => {
-  return await axios.get(`${postReactionPrefix}/${postId}`);
+  return await jwtAxios.get(`${postReactionPrefix}/${postId}`);
 };
 
 export const likePost = async (postId) => {

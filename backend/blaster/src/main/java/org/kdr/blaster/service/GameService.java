@@ -4,10 +4,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.kdr.blaster.domain.game.*;
+import org.kdr.blaster.domain.member.Member;
 import org.kdr.blaster.dto.game.*;
+import org.kdr.blaster.repository.GamePlayRecordRepository;
 import org.kdr.blaster.repository.game.*;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -28,13 +31,14 @@ public class GameService {
     private final BuffCountPerMatchRepository buffCountPerMatchRepository;
     private final ThrowableCountPerMatchRepository throwableCountPerMatchRepository;
     private final WeaponCountPerMatchRepository weaponCountPerMatchRepository;
+    private final GamePlayRecordRepository gamePlayRecordRepository;
+    private final MemberService memberService;
 
     /* getStats */
-    public Object getStats(StatisticsRequestDTO statisticsRequestDTO) {
+    public StatisticsResponseDTO getStats(StatisticsRequestDTO statisticsRequestDTO) {
         List<RawDataDTO> buffData = mapRepository.calculateBuffStats(statisticsRequestDTO);
         List<RawDataDTO> throwableData = mapRepository.calculateThrowableStats(statisticsRequestDTO);
         List<RawDataDTO> weaponData = mapRepository.calculateWeaponStats(statisticsRequestDTO);
-
 
         LocalDate startDate = statisticsRequestDTO.getStartDate();
         LocalDate endDate = statisticsRequestDTO.getEndDate();
@@ -210,9 +214,35 @@ public class GameService {
     }
 
     /* 맵 리스트 반환 */
-    public Object getMaps() {
+    public List<String> getMaps() {
         List<GameMap> allMaps = mapRepository.findAll();
         List<String> mapList = allMaps.stream().map((m) -> m.getName()).toList();
         return mapList;
     }
+
+    /* 개인 게임 이용 시간 요청 */
+    public Map getPlayTime(LocalDate start, LocalDate end) {
+        Member member = memberService.getAuthenticatedMember();
+        List<Object[]> queryResult = gamePlayRecordRepository.findTotalDurationByDate(member.getId(), start, end);
+
+        ArrayList<LocalDate> labels = new ArrayList<>();
+//        DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+
+        int days = (int) ChronoUnit.DAYS.between(start, end) + 1;
+        int [] data = new int[days];
+
+        if (!queryResult.isEmpty()) {
+            int i = 0, j = 0;
+            for (LocalDate d = start; d.isBefore(end.plusDays(1)); d = d.plusDays(1), i++) {
+                labels.add(d);
+                if (j < queryResult.size() && d.equals(((Date) queryResult.get(j)[0]).toLocalDate())) {
+                    data[i] = ((java.math.BigDecimal) (queryResult.get(j)[1])).intValue();
+                    j++;
+                }
+            }
+        }
+
+        return Map.of("labels", labels, "data", data);
+    }
+
 }

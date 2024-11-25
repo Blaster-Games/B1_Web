@@ -28,6 +28,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         String method = request.getMethod();
 
+
         if (path.startsWith("/api/member/login")) {
             return true;
         }
@@ -45,6 +46,9 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         }
         if (path.startsWith("/api/comment") && "GET".equalsIgnoreCase(method)) {
             return true;
+        }
+        if (path.startsWith("/api/game/play-time")) {
+            return false;
         }
         if (path.startsWith("/api/game") && "GET".equalsIgnoreCase(method)) {
             return true;

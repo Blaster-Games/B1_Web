@@ -20,7 +20,7 @@ function GameMainComponent() {
         {info.images ? (
           info.images.map((path) => (
             <div>
-              <img className="rounded" src={`${path}`} alt="" />
+              <img className="rounded-2xl" src={`${path}`} alt="" />
             </div>
           ))
         ) : (

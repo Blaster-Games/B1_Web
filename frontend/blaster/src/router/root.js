@@ -35,7 +35,7 @@ const root = createBrowserRouter([
     children: boardRouter(),
   },
   {
-    path: ':game/game-stats',
+    path: ':game/stats',
     children: gameStatRouter(),
   },
 ]);

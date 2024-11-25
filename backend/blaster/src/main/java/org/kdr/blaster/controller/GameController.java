@@ -5,8 +5,11 @@ import lombok.extern.log4j.Log4j2;
 import org.kdr.blaster.dto.game.MatchResultDTO;
 import org.kdr.blaster.dto.game.StatisticsRequestDTO;
 import org.kdr.blaster.service.GameService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,5 +33,15 @@ public class GameController {
     @GetMapping("/maps")
     public ResponseEntity<?> getMaps() {
         return ResponseEntity.ok(gameService.getMaps());
+    }
+
+    @GetMapping("/play-time")
+    public ResponseEntity<?> getPlayTime(
+            @RequestParam
+            @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate start,
+            @RequestParam
+            @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate end
+            ) {
+        return ResponseEntity.ok(gameService.getPlayTime(start, end));
     }
 }
