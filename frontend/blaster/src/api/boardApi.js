@@ -13,6 +13,11 @@ export const postListGet = async (requestParam) => {
   return res.data;
 };
 
+export const postSearchGet = async (requestParam) => {
+  const res = await axios.get(`${postPrefix}/search`, { params: requestParam });
+  return res.data;
+};
+
 export const getPostPatch = async (id) => {
   const res = await axios.patch(`${postPrefix}/${id}`);
   return res.data;
@@ -38,6 +43,19 @@ export const postPost = async (category, title, updatedHtml) => {
   });
 };
 
+export const postPut = async (id, title, updatedHtml) => {
+  return await jwtAxios.put(`${postPrefix}`, {
+    id: id,
+    title: title,
+    content: updatedHtml,
+  });
+};
+
+export const postDelete = async (id) => {
+  const res = await jwtAxios.delete(`${postPrefix}/${id}`);
+  return res.data;
+};
+
 export const commentListGet = async (postId) => {
   return await axios.get(`${commentPrefix}/list/${postId}`);
 };
@@ -61,7 +79,7 @@ export const commentDelete = async (commentId) => {
 };
 
 export const reactionGet = async (postId) => {
-  return await jwtAxios.get(`${postReactionPrefix}/${postId}`);
+  return await axios.get(`${postReactionPrefix}/${postId}`);
 };
 
 export const likePost = async (postId) => {

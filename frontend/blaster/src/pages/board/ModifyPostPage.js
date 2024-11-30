@@ -2,7 +2,7 @@ import React from 'react';
 import BasicLayout from '../../layouts/BasicLayout';
 import EditPostComponent from '../../components/board/EditPostComponent';
 
-function CreatePostPage() {
+function ModifyPostPage() {
   return (
     <BasicLayout>
       <EditPostComponent />
@@ -10,4 +10,4 @@ function CreatePostPage() {
   );
 }
 
-export default CreatePostPage;
+export default ModifyPostPage;

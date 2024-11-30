@@ -35,6 +35,9 @@ function DailyBarChartComponent({ info }) {
     plugins: {
       legend: {
         position: 'top',
+        labels: {
+          color: '#ddddff',
+        },
       },
       tooltip: {
         enabled: true,
@@ -46,11 +49,23 @@ function DailyBarChartComponent({ info }) {
           display: true,
           text: '날짜',
         },
+        ticks: {
+          color: '#ddddff', // x축 눈금 값 색상
+        },
+        grid: {
+          color: '#ddddff', // x축 눈금선 색상
+        },
       },
       y: {
         title: {
           display: true,
           text: y,
+        },
+        ticks: {
+          color: '#ddddff', // x축 눈금 값 색상
+        },
+        grid: {
+          color: '#ddddff', // x축 눈금선 색상
         },
         beginAtZero: true,
       },

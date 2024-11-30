@@ -5,6 +5,8 @@ import useEditor from '../../hooks/useEditor';
 import useCustomMove from '../../hooks/useCustomMove';
 import useCustomLogin from '../../hooks/useCustomLogin';
 import Modal from '../common/Modal';
+import { clear } from '../../slices/editPostSlice';
+import { useDispatch } from 'react-redux';
 
 const initModalData = {
   title: '',
@@ -15,15 +17,25 @@ const initModalData = {
   buttonText: '',
 };
 
-function CreatePostComponent() {
+function EditPostComponent() {
   const titleRef = useRef(null);
+  const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState(initModalData);
 
-  const { content, handleChange, modules, formats, handleUpload, editorRef } =
-    useEditor();
-  const { moveToList, page, size, sort, category } = useCustomMove();
+  const {
+    content,
+    handleChangeContent,
+    modules,
+    formats,
+    handleUpload,
+    editorRef,
+    title,
+    handleChangeTitle,
+  } = useEditor();
+  const { moveToList, page, size, sort, category, id, moveToDetail } =
+    useCustomMove();
   const { loginState } = useCustomLogin();
 
   useEffect(() => {
@@ -55,6 +67,8 @@ function CreatePostComponent() {
         <div className="mb-4 text-gray-400 text-center">
           <label>제목: </label>
           <input
+            value={title}
+            onChange={(value) => handleChangeTitle(value)}
             ref={titleRef}
             type="text"
             className="w-4/5 ml-2 flex-1 p-2 rounded bg-gray-600 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -64,7 +78,7 @@ function CreatePostComponent() {
           <ReactQuill
             ref={editorRef}
             value={content}
-            onChange={(value) => handleChange(value)}
+            onChange={(value) => handleChangeContent(value)}
             modules={modules}
             formats={formats}
           />
@@ -72,10 +86,15 @@ function CreatePostComponent() {
       </div>
       <div className="flex justify-end">
         {button('취소', 'bg-pink-900', () => {
-          moveToList({ page, size, sort });
+          if (id === null) {
+            moveToList({ page, size, sort });
+            return;
+          }
+          dispatch(clear());
+          moveToDetail(id);
         })}
         {button('글 쓰기', 'bg-indigo-900', () => {
-          handleUpload(titleRef.current.value);
+          handleUpload();
         })}
       </div>
       <Modal
@@ -89,4 +108,4 @@ function CreatePostComponent() {
   );
 }
 
-export default CreatePostComponent;
+export default EditPostComponent;

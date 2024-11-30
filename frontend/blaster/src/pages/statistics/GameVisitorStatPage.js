@@ -7,7 +7,7 @@ function GameVisitorStatPage() {
   return (
     <BasicLayout>
       <GameBarStatComponent
-        title={'일별 게임 접속자 수'}
+        title={'일일 게임 접속자 수'}
         fn={visitorStatsGet}
       />
     </BasicLayout>

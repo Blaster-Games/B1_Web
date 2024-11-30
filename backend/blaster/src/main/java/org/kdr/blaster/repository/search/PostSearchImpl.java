@@ -4,6 +4,7 @@ import com.querydsl.jpa.JPQLQuery;
 import lombok.extern.log4j.Log4j2;
 import org.kdr.blaster.domain.Game;
 import org.kdr.blaster.domain.QGame;
+import org.kdr.blaster.domain.board.Category;
 import org.kdr.blaster.domain.board.Post;
 import org.kdr.blaster.domain.board.QPost;
 import org.kdr.blaster.dto.post.PostListDTO;
@@ -47,6 +48,45 @@ public class PostSearchImpl extends QuerydslRepositorySupport implements PostSea
                 postPageRequestDTO.getSize(),
                 Sort.by(
                         Sort.Order.desc(postPageRequestDTO.getSort()),
+                        Sort.Order.desc("id")
+                ).descending()
+        );
+
+        this.getQuerydsl().applyPagination(pageable, query);
+
+        List<PostListDTO> posts = query.fetch().stream().map(PostMapper::toPostListDTO).toList();
+
+        return new PageImpl<>(posts, pageable, totalCount);
+    }
+
+    @Override
+    public Page<PostListDTO> searchByKeyword(String keyword, int page, int size, String gameName, Category category, String sort) {
+        QPost post = QPost.post;
+        QGame game = QGame.game;
+
+        JPQLQuery<Post> query = from(post);
+        JPQLQuery<Game> queryGame = from(game);
+
+        Game g = queryGame.where(game.name.eq(gameName)).fetchOne();
+
+        if (g == null) {
+            return new PageImpl<>(List.of(), PageRequest.of(1, 10), 0); // 해당 게임이 없는 경우 빈 페이지 반환
+        }
+
+        query.where(post.category.eq(category)
+                .and(post.deleted.eq(false))
+                .and(post.game.eq(g)));
+        query.where(post.title.like("%" + keyword + "%")
+                .or(post.content.like("%" + keyword + "%")
+                        .or(post.member.nickname.like("%" + keyword + "%"))));
+
+        long totalCount = query.fetchCount();
+
+        Pageable pageable = PageRequest.of(
+                page - 1,
+                size,
+                Sort.by(
+                        Sort.Order.desc(sort),
                         Sort.Order.desc("id")
                 ).descending()
         );

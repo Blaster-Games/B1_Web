@@ -8,10 +8,13 @@ import { gameInfo } from '../gameInfo';
 const GamePlatformMainPage = () => {
   return (
     <div className="bg-gray-900 text-white min-h-screen">
-      <div className="flex items-center justify-between px-12 bg-gray-700 py-4">
+      <div className="flex w-full fixed top-0 z-50 items-center justify-between px-12 bg-gray-700 py-4">
         {/* 헤더 영역 */}
         <header className="flex items-center">
-          <h1 className="text-3xl font-bold">Indie Game Connect</h1>
+          <h1 className="text-3xl font-bold">
+            <span className={'text-indigo-100'}>Indie</span>
+            <span className={'text-orange-300'}>Connect</span>
+          </h1>
         </header>
         <div>
           <ul className="flex space-x-6">
@@ -31,7 +34,7 @@ const GamePlatformMainPage = () => {
       </div>
 
       {/* 캐루셀 영역 */}
-      <div className="p-6">
+      <div className="mt-16 p-6">
         <Carousel
           autoPlay
           infiniteLoop

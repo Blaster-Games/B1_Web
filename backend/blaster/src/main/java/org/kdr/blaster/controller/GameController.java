@@ -21,6 +21,7 @@ public class GameController {
 
     @PostMapping("/match/result")
     public ResponseEntity<?> saveMatchSummary(@RequestBody MatchResultDTO matchResultDTO) {
+        log.info(matchResultDTO);
         return ResponseEntity.ok(gameService.saveMatchSummary(matchResultDTO));
     }
 

@@ -11,6 +11,7 @@ function Modal({
   onClick,
   buttonText,
 }) {
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
@@ -60,7 +61,7 @@ function Modal({
                   {onClick ? (
                     <button
                       type="button"
-                      className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none"
+                      className="bg-blue-500 text-white px-4 py-2 mr-1 rounded-lg hover:bg-blue-600 focus:outline-none"
                       onClick={() => {
                         if (onClick) {
                           onClick();

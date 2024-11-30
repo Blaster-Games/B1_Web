@@ -3,9 +3,11 @@ import PostListItem from './PostListItem';
 import { SORT } from '../../constants/boardConstants';
 import useCustomMove from '../../hooks/useCustomMove';
 import useCustomLogin from '../../hooks/useCustomLogin';
+import { postSearchGet } from '../../api/boardApi';
 
-function BoardComponent({ name, pageInfo }) {
+function BoardComponent({ name, pageInfo, setPageInfo }) {
   const sortRef = useRef(null);
+  const searchRef = useRef(null);
   const { page, size, sort, category, setQueryParams, moveToCreate } =
     useCustomMove();
   const { isLogin, loginState, redirectToLogin } = useCustomLogin();
@@ -26,6 +28,17 @@ function BoardComponent({ name, pageInfo }) {
     setQueryParams(() => ({ page, size, sort: sortRef.current.value }));
   }
 
+  function handleClickSearch() {
+    postSearchGet({
+      keyword: searchRef.current.value,
+      sort: sortRef.current.value,
+    })
+      .then((res) => {
+        setPageInfo(res);
+      })
+      .catch(console.error);
+  }
+
   return (
     <div className="flex-1 flex flex-col bg-gray-800 text-gray-100 rounded-t-lg shadow-lg p-8 h-full max-h-screen min-h-[70vh] pt-12">
       {/* 공지 게시판 제목 */}
@@ -34,11 +47,14 @@ function BoardComponent({ name, pageInfo }) {
         {/* 검색창 */}
         <div className="flex items-center justify-center flex-1 relative">
           <input
+            ref={searchRef}
             type="text"
             placeholder="검색..."
             className="bg-gray-700 text-gray-100 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-[80%] pr-10"
           />
-          <button className="absolute inset-y-0 right-[10%] flex items-center pr-3 focus:outline-none">
+          <button
+            onClick={handleClickSearch}
+            className="absolute inset-y-0 right-[10%] flex items-center pr-3 focus:outline-none">
             <svg
               className="w-5 h-5 text-gray-400"
               fill="none"
@@ -59,7 +75,7 @@ function BoardComponent({ name, pageInfo }) {
         <select
           onChange={handleChangeSort}
           ref={sortRef}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 ml-4"
+          className="bg-indigo-900 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 ml-4"
         >
           <option value={`${SORT.CREATED_AT}`}>최신 순</option>
           <option value={`${SORT.VIEW_COUNT}`}>조회 순</option>
@@ -71,7 +87,7 @@ function BoardComponent({ name, pageInfo }) {
         ) : (
           <div
             onClick={handleClickCreatePost}
-            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 ml-4"
+            className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-green-600 ml-4"
           >
             글 작성
           </div>

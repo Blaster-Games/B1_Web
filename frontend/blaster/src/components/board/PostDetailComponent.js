@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { getPostPatch, postGet } from '../../api/boardApi';
+import { getPostPatch, postDelete } from '../../api/boardApi';
 import useCustomLogin from '../../hooks/useCustomLogin';
 import useCustomMove from '../../hooks/useCustomMove';
 import CommentListComponent from './CommentListComponent';
 import PostReactionComponent from './PostReactionComponent';
+import Modal from '../common/Modal';
+import { useDispatch } from 'react-redux';
+import { savePost } from '../../slices/editPostSlice';
 
 const initialState = {
   category: '',
@@ -23,7 +26,9 @@ const initialState = {
 function PostDetailComponent({ id }) {
   const [postInfo, setPostInfo] = useState(initialState);
   const { loginState } = useCustomLogin();
-  const { moveToList } = useCustomMove();
+  const { moveToList, moveToModify } = useCustomMove();
+  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const toList = (
     <button
@@ -42,6 +47,26 @@ function PostDetailComponent({ id }) {
     });
   }, []);
 
+  function handleOnClickDelete() {
+    setIsOpen(false);
+    postDelete(id)
+      .then((res) => {
+        console.log(res);
+        moveToList();
+      })
+      .catch(console.error);
+  }
+
+  function handleOnClickModify() {
+    dispatch(
+      savePost({
+        title: postInfo.title,
+        content: postInfo.content,
+      }),
+    );
+    moveToModify();
+  }
+
   return (
     <div className="flex-1 flex flex-col bg-gray-800 text-gray-100 rounded-lg shadow-lg p-8 min-h-[70vh] pt-12">
       {/* 게시글 제목 */}
@@ -55,10 +80,16 @@ function PostDetailComponent({ id }) {
         {loginState.id === postInfo.memberId ? (
           <div>
             {toList}
-            <button className="bg-indigo-900 text-white text-xs px-2 py-1 mx-1 rounded-lg">
+            <button
+              onClick={handleOnClickModify}
+              className="bg-indigo-900 text-white text-xs px-2 py-1 mx-1 rounded-lg"
+            >
               수정
             </button>
-            <button className="bg-pink-900 text-white text-xs px-2 py-1 ml-1 rounded-lg">
+            <button
+              onClick={() => setIsOpen(true)}
+              className="bg-pink-900 text-white text-xs px-2 py-1 ml-1 rounded-lg"
+            >
               삭제
             </button>
           </div>
@@ -82,6 +113,15 @@ function PostDetailComponent({ id }) {
       />
       <hr />
       <CommentListComponent />
+      <Modal
+        isOpen={isOpen}
+        title={'게시글 삭제'}
+        content={'정말 게시글을 삭제하시겠습니까?'}
+        onClose={() => setIsOpen(false)}
+        buttonCloseText={'취소'}
+        onClick={handleOnClickDelete}
+        buttonText={'확인'}
+      />
     </div>
   );
 }

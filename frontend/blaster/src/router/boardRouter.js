@@ -4,6 +4,7 @@ const Loading = <div>Loading...</div>;
 const Board = lazy(() => import('../pages/board/BoardPage'));
 const Post = lazy(() => import('../pages/board/PostDetailPage'));
 const CreatePost = lazy(() => import('../pages/board/CreatePostPage'));
+const ModifyPost = lazy(() => import('../pages/board/ModifyPostPage'));
 
 function boardRouter() {
   return [
@@ -28,6 +29,14 @@ function boardRouter() {
       element: (
         <Suspense fallback={Loading}>
           <CreatePost />
+        </Suspense>
+      ),
+    },
+    {
+      path: ':category/:id/modify',
+      element: (
+        <Suspense fallback={Loading}>
+          <ModifyPost />
         </Suspense>
       ),
     },

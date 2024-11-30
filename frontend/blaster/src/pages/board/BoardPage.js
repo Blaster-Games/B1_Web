@@ -59,6 +59,7 @@ function BoardPage() {
           <BoardComponent
             name={category === 'notice' ? '공지 게시판' : '자유 게시판'}
             pageInfo={pageInfo}
+            setPageInfo={setPageInfo}
           />
         </div>
         <Pagination pageInfo={pageInfo} />

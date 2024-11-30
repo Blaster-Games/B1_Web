@@ -6,17 +6,16 @@ function NavMenu() {
   return (
     <header className="bg-gray-700 p-4 flex justify-between items-center shadow-md rounded-lg mb-6">
       <nav>
-        <ul className="flex space-x-6">
-          <li>
+        <ul className="flex items-center space-x-6">
+          <li className={'ml-4'}>
             <Link
               to="/"
               className="text-white hover:text-blue-400 text-lg transition duration-300"
             >
-              <img
-                src="/1.svg"
-                alt="Home Icon"
-                style={{ width: '30px', height: '30px' }} // 원하는 크기로 조정
-              />
+              <h1 className="text-3xl font-bold">
+                <span className={'text-indigo-100'}>Indie</span>
+                <span className={'text-orange-300'}>Connect</span>
+              </h1>
             </Link>
           </li>
           {gameInfo.map((gameInfo) => (

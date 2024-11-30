@@ -22,7 +22,7 @@ const useCustomMove = () => {
 
   const [queryParams, setQueryParams] = useSearchParams();
 
-  const { category } = useParams();
+  const { game, category, id } = useParams();
 
   const page = getNum(queryParams.get('page'), 1);
   const size = getNum(queryParams.get('size'), 10);
@@ -32,7 +32,7 @@ const useCustomMove = () => {
 
   const moveToDetail = (id) => {
     navigate({
-      pathname: `./${id}`,
+      pathname: `../${category}/${id}`,
       search: queryDefault,
     });
   };
@@ -40,6 +40,13 @@ const useCustomMove = () => {
   const moveToCreate = () => {
     navigate({
       pathname: `./create`,
+      search: queryDefault,
+    });
+  };
+
+  const moveToModify = () => {
+    navigate({
+      pathname: `./modify`,
       search: queryDefault,
     });
   };
@@ -61,7 +68,7 @@ const useCustomMove = () => {
 
     setRefresh(!refresh);
 
-    navigate({ pathname: `../${category}`, search: queryStr });
+    navigate({ pathname: `/${game}/board/${category}`, search: queryStr });
   };
 
   return {
@@ -70,11 +77,13 @@ const useCustomMove = () => {
     page,
     size,
     sort,
+    id,
     queryParams,
     setQueryParams,
     refresh,
     category,
     moveToCreate,
+    moveToModify,
   };
 };
 

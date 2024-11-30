@@ -31,7 +31,7 @@ const initialData = {
 };
 
 const initialRequest = {
-  mapName: 'testMap',
+  mapName: 'HighRise',
   startDate: getDay(7),
   endDate: getDay(0),
 };
@@ -46,6 +46,7 @@ const options = (text) => {
           boxHeight: 12, // 범례 박스 높이
           boxWidth: 20, // 범례 박스 너비
           padding: 20, // 범례 항목 간 간격
+          color: '#ddddff',
         },
       },
       title: {
@@ -58,8 +59,8 @@ const options = (text) => {
       },
       tooltip: {
         backgroundColor: 'rgba(0,0,0,0.7)', // 툴팁 배경 색상
-        titleColor: '#777777', // 툴팁 제목 색상
-        bodyColor: '#777777', // 툴팁 본문 색상
+        titleColor: '#ddddff', // 툴팁 제목 색상
+        bodyColor: '#ddddff', // 툴팁 본문 색상
       },
     },
     elements: {
@@ -69,6 +70,24 @@ const options = (text) => {
       point: {
         radius: 5, // 데이터 점 크기
         hoverRadius: 7, // 마우스 오버 시 점 크기
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: '#ddddff', // x축 눈금 값 색상
+        },
+        grid: {
+          color: '#ddddff', // x축 눈금선 색상
+        },
+      },
+      y: {
+        ticks: {
+          color: '#ddddff', // y축 눈금 값 색상
+        },
+        grid: {
+          color: '#ddddff', // y축 눈금선 색상
+        },
       },
     },
   };

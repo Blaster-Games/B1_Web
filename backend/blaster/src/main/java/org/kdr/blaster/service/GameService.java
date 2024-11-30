@@ -130,6 +130,7 @@ public class GameService {
                 .gameMap(gameMap)
                 .build();
         GameMatch gameMatch = matchRepository.save(matchTemp);
+        log.info(gameMatch);
 
         for (BuffInfoDTO buffPurchase : matchResultDTO.getBuffPurchases()) {
             BuffCountPerMatch buffCountPerMatchTemp = BuffCountPerMatch.builder()
@@ -174,6 +175,7 @@ public class GameService {
         } else {
             gameMap = optionalMap.get();
         }
+        log.info(gameMap);
         return gameMap;
     }
 

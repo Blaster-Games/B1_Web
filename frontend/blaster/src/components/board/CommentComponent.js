@@ -64,18 +64,18 @@ function CommentComponent({ commentInfo, refresh, setRefresh }) {
             )}
           </div>
           <div className="flex items-center gap-4 mb-6">
-            <button className="flex items-center gap-1 text-sm text-gray-400">
-              <span role="img" aria-label="like">
-                👍
-              </span>{' '}
-              {comment.likeCount}
-            </button>
-            <button className="flex items-center gap-1 text-sm text-gray-400">
-              <span role="img" aria-label="dislike">
-                👎
-              </span>{' '}
-              {comment.dislikeCount}
-            </button>
+            {/*<button className="flex items-center gap-1 text-sm text-gray-400">*/}
+            {/*  <span role="img" aria-label="like">*/}
+            {/*    👍*/}
+            {/*  </span>{' '}*/}
+            {/*  {comment.likeCount}*/}
+            {/*</button>*/}
+            {/*<button className="flex items-center gap-1 text-sm text-gray-400">*/}
+            {/*  <span role="img" aria-label="dislike">*/}
+            {/*    👎*/}
+            {/*  </span>{' '}*/}
+            {/*  {comment.dislikeCount}*/}
+            {/*</button>*/}
             {loginState.id === comment.memberId ? (
               isEditingComment ? (
                 <div>
