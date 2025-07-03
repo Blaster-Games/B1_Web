@@ -15,8 +15,8 @@ public class AwsS3Config {
     public S3Client s3Client() {
         // AWS 자격 증명을 환경 변수에서 읽어옵니다.
         AwsBasicCredentials awsCreds = AwsBasicCredentials.create(
-                System.getProperty("AWS_ACCESS_KEY_ID"), // 환경 변수에서 Access Key 가져오기
-                System.getProperty("AWS_SECRET_ACCESS_KEY") // 환경 변수에서 Secret Key 가져오기
+                System.getenv("AWS_ACCESS_KEY_ID"), // 환경 변수에서 Access Key 가져오기
+                System.getenv("AWS_SECRET_ACCESS_KEY") // 환경 변수에서 Secret Key 가져오기
                 // 로컬에서는 System.getProperty - Java 애플리케이션 내에서 설정된 시스템 속성을 가져옵니다.
                 // 운영 환경에서는 System.getenv() - OS 레벨의 환경 변수를 가져옵니다. OS에 설정된 환경 변수만 읽습니다.
                 // .env 파일을 사용한 경우 Dotenv 라이브러리가 환경 변수가 아닌 시스템 속성으로 값을 설정했기 때문
@@ -25,7 +25,7 @@ public class AwsS3Config {
         );
 
         return S3Client.builder()
-                .region(Region.of(System.getProperty("AWS_REGION"))) // 리전 설정
+                .region(Region.of(System.getenv("AWS_REGION"))) // 리전 설정
                 .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
                 .build();
     }

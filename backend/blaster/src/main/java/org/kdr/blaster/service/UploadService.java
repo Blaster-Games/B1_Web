@@ -54,7 +54,7 @@ public class UploadService {
             s3Client.putObject(putObjectRequest, file.toPath());
 
             // 5. 업로드된 파일 URL 반환
-            return "https://" + bucketName + ".s3." + System.getProperty("AWS_REGION") + ".amazonaws.com/" + key;
+            return "https://" + bucketName + ".s3." + System.getenv("AWS_REGION") + ".amazonaws.com/" + key;
         } finally {
             // 로컬 파일 삭제
             Files.deleteIfExists(file.toPath());

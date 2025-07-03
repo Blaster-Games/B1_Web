@@ -4,7 +4,7 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: ${DB_URL} # 환경 변수로 관리
+    url: jdbc:mariadb://${DB_URL}/${DB_NAME} # 환경 변수로 관리
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 

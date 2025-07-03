@@ -1,0 +1,21 @@
+services:
+  db:
+    image: "mariadb:lts"
+    volumes:
+      - data:/var/lib/mysql
+    env_file:
+      - ./env/db.env
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./dockerfile/backend.dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./env/backend.env
+    depends_on:
+      - db
+
+volumes:
+  data:
