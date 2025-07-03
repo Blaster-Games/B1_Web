@@ -1,8 +1,8 @@
 import axios from 'axios';
 import jwtAxios from '../util/jwtUtil';
+import { API_SERVER_HOST } from './config';
 
-// export const API_SERVER_HOST = 'https://native-pika-possibly.ngrok-free.app';
-export const API_SERVER_HOST = 'http://localhost:8080';
+export { API_SERVER_HOST };
 
 const prefix = `${API_SERVER_HOST}/api/member`;
 
