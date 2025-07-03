@@ -30,7 +30,6 @@ public class PostMapper {
                 .viewCount(post.getViewCount())
                 .likeCount(post.getLikeCount())
                 .dislikeCount(post.getDislikeCount())
-                .dislikeCount(post.getDislikeCount())
                 .commentCount(post.getCommentCount())
                 .memberId(post.getMember().getId())
                 .memberName(post.getMember().getNickname())
