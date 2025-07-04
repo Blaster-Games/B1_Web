@@ -1,9 +1,11 @@
 # 1단계: 빌드
-FROM node:18-alpine as build
+FROM node:20.18.0-alpine as build
 WORKDIR /app
 COPY frontend/blaster/package.json ./
 COPY frontend/blaster/package-lock.json ./
 RUN npm install
+ARG REACT_APP_API_HOST
+ENV REACT_APP_API_HOST=${REACT_APP_API_HOST}
 COPY frontend/blaster .
 RUN npm run build
 

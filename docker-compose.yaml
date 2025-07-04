@@ -5,6 +5,11 @@ services:
       - data:/var/lib/mysql
     env_file:
       - ./env/db.env
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     build:
@@ -14,6 +19,11 @@ services:
       - "8080:8080"
     env_file:
       - ./env/backend.env
+#    depends_on:
+#      - db
+    depends_on:
+      db:
+        condition: service_healthy
 
   frontend:
     build:
@@ -21,8 +31,8 @@ services:
       dockerfile: ./dockerfile/frontend.dockerfile
     ports:
       - "3000:80"
-    env_file:
-      - ./env/frontend.env
+    environment:
+      REACT_APP_API_HOST: localhost:8080
 
 volumes:
   data:
