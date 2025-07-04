@@ -61,7 +61,7 @@ public class PostService {
                 .content(createPostRequestDTO.getContent())
                 .category(createPostRequestDTO.getCategory())
                 .member(member)
-                .game(gameRepository.findById(1L).orElseThrow())
+                .game(gameRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException("ID 1 게임이 존재하지 않습니다.")))
                 .build();
         postRepository.save(post);
         return Map.of("message", "success");

@@ -1,2 +1,4 @@
 /env/
 .env
+.gitignore
+/blaster_backup.sql

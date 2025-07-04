@@ -4,9 +4,8 @@ WORKDIR /app
 COPY frontend/blaster/package.json ./
 COPY frontend/blaster/package-lock.json ./
 RUN npm install
-ARG REACT_APP_API_HOST
-ENV REACT_APP_API_HOST=${REACT_APP_API_HOST}
 COPY frontend/blaster .
+ENV REACT_APP_API_HOST http://localhost:8080
 RUN npm run build
 
 # 2단계: nginx에 정적 파일 복사
