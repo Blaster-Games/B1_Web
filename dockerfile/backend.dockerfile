@@ -23,7 +23,5 @@ WORKDIR /app
 # 빌드한 JAR만 복사
 COPY --from=build /home/gradle/build/libs/*.jar app.jar
 
-EXPOSE 8080
-
 # 앱 실행
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -2,6 +2,8 @@ package org.kdr.blaster.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.kdr.blaster.config.AwsProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -21,6 +23,7 @@ import java.util.UUID;
 public class UploadService {
 
     private final S3Client s3Client;
+    private final AwsProperties awsProperties;
 
     public List<String> uploadImages(List<MultipartFile> files) {
         List<String> uploadedUrls = new ArrayList<>();
@@ -54,7 +57,7 @@ public class UploadService {
             s3Client.putObject(putObjectRequest, file.toPath());
 
             // 5. 업로드된 파일 URL 반환
-            return "https://" + bucketName + ".s3." + System.getenv("AWS_REGION") + ".amazonaws.com/" + key;
+            return "https://" + bucketName + ".s3." + awsProperties.getRegion() + ".amazonaws.com/" + key;
         } finally {
             // 로컬 파일 삭제
             Files.deleteIfExists(file.toPath());

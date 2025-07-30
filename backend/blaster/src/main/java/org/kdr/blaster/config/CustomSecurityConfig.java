@@ -108,7 +108,14 @@ public class CustomSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         // 허용할 도메인을 특정합니다. 모든 도메인을 허용하지 않도록 설정합니다.
-        configuration.setAllowedOriginPatterns(List.of("*", "https://b1-web.pages.dev/", "http://localhost:3000/", "host.docker.internal"));
+        configuration.setAllowedOriginPatterns(List.of(
+                "https://b1-web.pages.dev",
+                "http://localhost:3000",
+                "host.docker.internal",
+                "ec2-3-34-134-226.ap-northeast-2.compute.amazonaws.com",
+                "http://3.34.134.226",
+                "http://indieconnect.site"
+        ));
 
         // 허용할 HTTP 메서드를 명시합니다.
         configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));

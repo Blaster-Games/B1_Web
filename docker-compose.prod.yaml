@@ -1,0 +1,46 @@
+services:
+  db:
+    image:
+      'dongyoung5/blaster-web-db'
+    ports:
+      - "3306:3306"
+    volumes:
+      - data:/var/lib/mysql
+    env_file:
+      - ./env/db.env
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    image:
+      'dongyoung5/blaster-web-backend'
+    env_file:
+      - ./env/backend.env
+    expose:
+      - "8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    image:
+      'dongyoung5/blaster-web-frontend'
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+  nginx:
+    image: 'nginx:latest'
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+
+volumes:
+  data:
