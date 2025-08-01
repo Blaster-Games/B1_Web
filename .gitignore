@@ -2,3 +2,4 @@
 .env
 .gitignore
 /blaster_backup.sql
+/blaster.pem
