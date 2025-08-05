@@ -1,53 +1,28 @@
-# B1(멀티 슈팅 게임 - [github](https://github.com/Blaster-Games/B1)) 커뮤니티/통계 사이트
+# B1 Web
 
 ## 목차
   - [서비스 개요](#서비스-개요)
-  - [팀원 소개](#팀원-소개)
+  - [주요 기능](#주요-기능)
   - [기술 스택](#기술-스택)
   - [시스템 아키텍처](#시스템-아키텍처)
-  - [기능 소개](#기능-소개)
-    
+  - [향후 추가할 기능](#시스템-아키텍처)
 
 ## 서비스 개요
 
 ```
-훌륭한 인디게임이라도 홍보할 기회가 부족해 주목받지 못하고 사라지는 경우가 많습니다.
-이러한 문제를 해결하기 위해 인디게임 개발자와 플레이어를 직접 연결해주는 플랫폼을 만들었습니다.
-
+멀티 슈팅 게임 B1의 홈페이지입니다.
+게임 개발자와 플레이어를 연결해주는 플랫폼입니다.
+게임 관련 통계 또한 제공합니다.
 
 기간: 2024.10 ~ 2024.11 (5주)
 ```
+- 배포 주소: [indieconnect.site](http://indieconnect.site)
+- B1 github: [https://github.com/Blaster-Games/B1](https://github.com/Blaster-Games/B1)
 
-## 팀원 소개
-
-| <img title="" src="https://avatars.githubusercontent.com/hyoseon1201" alt="" width="300" height="200"> | <img title="" src="https://avatars.githubusercontent.com/CHAFALL" alt="" width="300" height="200"> | <img title="" src="https://avatars.githubusercontent.com/K-Dongyoung" alt="" width="300" height="200"> |
-|:------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------:|
-| [곽효선<br/>(Game Server)](https://github.com/hyoseon1201)                                                | [전근렬<br/>(Game Client)](https://github.com/CHAFALL)                                                | [김동영<br/>(Web)](https://github.com/K-Dongyoung)                                                        |
-
-## 기술 스택
-
-![](./readme-assets/기술%20스택.png)
-
-```
-Back-end : Spring boot 3.3.5, java 17
-Front-end : Node.js 20 LTS, React 18.3.1
-Game-Server : .Net 8.0
-Game-Client : Unreal Engine 5.4 
-```
-
-## 시스템 아키텍처
-
-<img title="" src="./readme-assets/아키텍처.png" alt="메인 페이지.png" width="340">
-
-## 기능 소개
-
-#### 웹
-
-##### 메인페이지
-
-| ![메인 페이지.png](./readme-assets/메인%20페이지.png) |
-|:-------------------------------------------:|
-| 메인페이지                                       |
+## 주요 기능
+- 회원가입 및 로그인(jwt, spring security)
+- 게시글 CRUD(Quill, S3)
+- 게임 통계(Chart.js)
 
 ##### 게시글
 
@@ -71,44 +46,21 @@ Game-Client : Unreal Engine 5.4
 | ![맵별 통계.png](./readme-assets/맵별%20통계.png)                 |
 | 맵 별 통계 (FPS 특화 통계)                                        |
 
-#### 게임
+## 기술 스택
 
-##### 로비 / 방 (TCP 서버 이용)
+```
+Back-end : Spring boot 3.3.5, java 17
+Front-end : Node.js 20 LTS, React 18.3.1
+Database : MariaDB
+Infra : AWS EC2, Docker, Docker Compose, Nginx
+```
 
-| ![방 생성.png](./readme-assets/방%20생성.png) | ![방 내부.png](./readme-assets/방%20내부.png) |
-|:---------------------------------------:|:---------------------------------------:|
-| 방 생성                                    | 방 내부 (채팅 기능 포함)                         |
+## 시스템 아키텍처
 
-##### 인게임 내 UI
-
-| ![Tab.png](./readme-assets/Tab.png)     |
-|:---------------------------------------:|
-| Tab 키                                   |
-| ![상점.png](./readme-assets/상점.png)       |
-| 상점 (매 라운드 사이)                           |
-| ![결과 창.png](./readme-assets/결과%20창.png) |
-| 결과 창                                    |
-
-###### 
-
-###### 인게임 내 상세 동작은 아래 링크를 확인해주세요.
-
-[인게임 내 상세 동작](https://github.com/CHAFALL/Blaster)
-
-### 게임 시연 영상
-
-| ![시연-영상-_online-video-cutter.com_.gif](./readme-assets/게임%20시연%20영상.gif) |
-|:------------------------------------------------------------------------:|
-| 시연 영상 (1분 25초)                                                           |
+<img title="" src="./readme-assets/architecture.png" alt="메인 페이지.png">
 
 ### 프로젝트 산출물
 
 ##### ERD
 
 ![결과 창.png](./readme-assets/ERD.png)
-
-##### 와이어프레임
-
-![결과 창.png](./readme-assets/와이어프레임.png)
-
-https://www.figma.com/design/aLG09eCO3Mz2DcafxBr0yE/Blaster?node-id=0-1&p=f&t=YoF8Je5eyPRvfqci-0
