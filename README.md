@@ -57,7 +57,7 @@ Infra : AWS EC2, Docker, Docker Compose, Nginx
 
 ## 시스템 아키텍처
 
-<img title="" src="./readme-assets/architecture.png" alt="메인 페이지.png">
+<img title="" src="./readme-assets/architecture.png" alt="architecture.png">
 
 ### 프로젝트 산출물
 
