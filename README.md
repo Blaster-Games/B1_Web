@@ -73,4 +73,4 @@ Infra : AWS EC2, Docker, Docker Compose, Nginx
 - 통계 조회, 게시글 조회 시 성능 개선
 
 
-[⬆️ 맨 위로](#목차)
+[⬆️ 맨 위로](#B1-Web)
