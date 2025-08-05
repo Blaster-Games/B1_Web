@@ -71,6 +71,8 @@ Infra : AWS EC2, Docker, Docker Compose, Nginx
 - 내가 쓴 댓글 조회
 - 좋아요 혹은 싫어요 평가한 댓글 조회
 - 통계 조회, 게시글 조회 시 성능 개선
+- https 적용
+- CI/CD 도입
 
 
 [⬆️ 맨 위로](#B1-Web)
