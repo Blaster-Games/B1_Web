@@ -16,7 +16,7 @@
 
 기간: 2024.10 ~ 2024.11 (5주)
 ```
-- 배포 주소: [indieconnect.site](http://indieconnect.site)
+- 배포 주소: [http://3.34.134.226/blaster](http://3.34.134.226/blaster)
 - B1 github: [https://github.com/Blaster-Games/B1](https://github.com/Blaster-Games/B1)
 
 ## 주요 기능
